@@ -18,7 +18,7 @@ app_params = {
     "meta_tags": [{'name': 'viewport', 'content': 'width=device-width, initial-scale=1.0'}]
 }
 
-server_params = {"debug": True, "port": 11152}
+server_params = {"debug": False}
 
 
 # Create app
