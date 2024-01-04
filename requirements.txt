@@ -1,0 +1,16 @@
+dash==2.14.0
+dash_ag_grid==2.1.0
+dash_bootstrap_components==1.1.0
+dash_daq==0.5.0
+dash_deck==0.0.1
+dash_iconify==0.1.2
+dash_mantine_components==0.12.0
+Flask==2.2.2
+matplotlib==3.7.1
+numpy==1.25.2
+pandas==2.1.4
+plotly_calplot==0.1.20
+pycountry==22.3.5
+pydeck==0.8.0
+gunicorn
+dash-tools

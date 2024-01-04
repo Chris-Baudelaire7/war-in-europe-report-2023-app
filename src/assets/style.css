@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+
+
+body {
+    font-family: Playfair Display, Merriweather, serif !important;
+    overflow-x: hidden !important;
+    background: rgb(0, 0, 0)
+}
+
+nav {
+    border: none !important;
+}
+
+#view-MapView, #mapboxgl-map, #deckgl-wrapper {
+    position: relative !important;
+    width: 100% !important;
+    height:580px !important;
+}
+
+.mantine-Timeline-itemTitle, .mantine-xli7hl {
+    color: white !important;
+    font-family: Playfair Display, Merriweather, serif !important;
+}
+
+.btn {
+    color: white;
+    background-color:transparent !important;
+    border: 1px solid rgba(164, 164, 164, 0.263)
+}
+
+.intro {
+    position: absolute;
+    z-index: 9000000;
+    top:60px;
+    left: 100px !important;
+    color: white;
+    font-family: Playfair Display, Merriweather, serif !important;
+    font-size: 11px;
+    background-color: #000000cb;
+    padding: 8px;
+    width: 300px;
+    align-items: center;
+}
+
+.number {
+    font-size: 14px
+}
+
+.text-notes {
+    font-size: 11px !important;
+}
+
+.timeline {
+    height: 520px;
+    overflow-y: scroll;
+}
+
+.comments {
+    font-size: 15px !important;
+    font-family: Playfair Display, Merriweather, serif !important;
+}
+
+.small_comments {
+    font-size: 12px !important;
+    font-family: Playfair Display, Merriweather, serif !important;
+}
+
+.mantine-Alert-root, .mantine-1maairl {
+    background-color: rgba(255, 39, 39, 0.196) !important;
+    color: white !important;
+}
+
+.separate {
+  margin-top: 200px !important;
+  margin-bottom: 90px !important;
+  height: 20px !important;
+  background-color: rgb(32, 31, 31) !important;
+}
+
+.div-daq {
+    position: relative;
+    top: 120px !important;
+    left: 300px;
+    z-index: 1000
+}
+
+
+/* dash daq -------------------------------------------------------------------------------------*/
+
+.sc-brqgnP, .dcouPi {
+    width: 120px !important;
+}
+
+.rc-slider-rail {
+    height: .6px !important;
+    background-color: rgb(120, 120, 120) !important;
+}
+
+.rc-slider-track {
+    height: 4px !important;
+}
+
+/* End dash daq -------------------------------------------------------------------------------------*/
+
+
+/* dcc Dropdown -------------------------------------------------------------------------------------*/
+
+.Select-control {
+    background-color: rgb(0, 0, 0) !important;
+    border: 1px solid #404040c4 !important;
+    padding: 0px !important;
+}
+
+.Select-value-label {
+    color: #fff !important;
+    font-family: serif !important;
+    font-size: 13px !important;
+}
+
+.Select-value-icon {
+    color: grey !important;
+    font-size: 14px !important;
+    padding: 0px !important;
+}
+
+.Select, .Select--multi, .is-open {
+    background-color: rgb(0, 0, 0) !important;
+    color: rgb(255, 255, 255) !important;
+    font-family: serif !important;
+}
+
+.Select > * {
+    background-color: rgb(0, 0, 0) !important;
+    color: rgb(235, 235, 235) !important;
+    font-family: serif !important;
+    font-size: 16px !important;
+    border: 1px solid #40404068 !important;
+}
+
+/* end dcc Dropdown -------------------------------------------------------------------------------------*/
+
+
+/* Chip mantine ---------------------------------------------------------------------------------------- */
+
+.mantine-15po0m8 > * {
+  background-color: transparent !important;
+  color: white !important;
+  font-family: serif !important;
+  border: none !important; 
+}
+
+.__mantine-ref-iconWrapper, .mantine-pibo38, .mantine-Chip-iconWrapper {
+  color: rgb(210, 28, 28) !important;
+}
+
+/* End Chip mantine ---------------------------------------------------------------------------------------- */
+
+
+/* Date picker ---------------------------------------------------------------------------------------- */
+
+.SingleDatePickerInput {
+    border: none !important;
+    display: inline !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.DateInput_input, .DateInput_input_1 {
+    background-color: rgb(0, 0, 0) !important;
+    color: white !important;
+    font-weight: bold !important;
+    font-size: 25px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* End date picker ---------------------------------------------------------------------------------------- */
+
+
+
+
+.ag-theme-alpine-dark, .ag-theme-alpine {
+    --ag-background-color: #000000 !important;
+    --ag-odd-row-background-color: #0f0f0f;
+    --ag-header-background-color: rgb(0, 0, 0);
+    --ag-header-cell-hover-background-color: firebrick
+}
+
+
+
+@media screen and (max-width: 1025) {
+    .intro {
+        position: absolute;
+        z-index: 9000000;
+        top:60px;
+        left: 0px !important;
+        color: white;
+        font-family: Playfair Display, Merriweather, serif !important;
+        font-size: 11px;
+        background-color: #00000079;
+        padding: 8px;
+        width: 300px;
+        align-items: center;
+    }
+}
+/* 
+@media screen and (max-width: 992) {
+    .intro {
+        position: relative !important;
+        top: 0;
+        left: 0;
+        color: white;
+        font-family: Playfair Display, Merriweather, serif !important;
+        font-size: 13px;
+    }
+} */
+
+
+.tabular {
+  background-color: transparent !important;
+}
+
+.tabular > * > * {
+  background-color: transparent !important;
+  border-bottom: none !important;
+}
+
+
