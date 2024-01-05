@@ -1,8 +1,12 @@
 import pycountry
+import pydeck as pdk
 import plotly.express as px
 import plotly.express as px
 import plotly.graph_objects as go
 from data_preparation import *
+
+
+mapbox_access_token = "pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg"
 
 
 list_months = [
@@ -21,12 +25,12 @@ update_layout_geo = {
     )
 }
 
-update_layout_simple = { 
-    "template":"plotly_dark",
-    "paper_bgcolor":"rgba(0,0,0,0)",
-    "plot_bgcolor":"rgba(0,0,0,0)",
-    "hovermode":"x",
-    "margin":dict(l=0, r=0, t=0, b=30),
+update_layout_simple = {
+    "template": "plotly_dark",
+    "paper_bgcolor": "rgba(0,0,0,0)",
+    "plot_bgcolor": "rgba(0,0,0,0)",
+    "hovermode": "x",
+    "margin": dict(l=0, r=0, t=0, b=30),
 }
 
 
@@ -82,25 +86,28 @@ def choropleth_europe(df, metric, zmin, zmax, colorscale):
     return fig
 
 
-# Trace 
+# Trace
 
 def timeseries_by_categories(title, category, metric, colors, col_order, graph):
     period = "month"
     dframe = df.groupby([period, category], as_index=False).size()
-    columns = list(dframe.groupby([category], as_index=False).size().sort_values(by=metric)[category].values)
+    columns = list(dframe.groupby([category], as_index=False).size(
+    ).sort_values(by=metric)[category].values)
 
     dframe = dframe.pivot_table(index="month", columns=category, values=metric)
-    dframe = (dframe[columns].fillna(0)).sort_values(by="month", key=lambda x: pd.to_datetime(x, format='%B'))
+    dframe = (dframe[columns].fillna(0)).sort_values(
+        by="month", key=lambda x: pd.to_datetime(x, format='%B'))
     dframe = dframe.iloc[:, col_order]
-    
+
     if graph == "line":
         fig = px.line(dframe, x=dframe.index, y=dframe.columns)
 
         for trace, color in zip(fig.data, colors):
-            trace.update(mode='lines+markers', line=dict(width=1.7, color=color))
-            
+            trace.update(mode='lines+markers',
+                         line=dict(width=1.7, color=color))
+
         legend = dict(title=None, x=.6, y=.97)
-        
+
     else:
         fig = go.Figure()
         for col, color in zip(list(dframe.columns), colors):
@@ -175,29 +182,30 @@ def pie_chart(data, labels, values, title):
 
 
 def conflict_by_month_utils(df, period, title, is_ue=False):
-    day_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    day_order = ["Monday", "Tuesday", "Wednesday",
+                 "Thursday", "Friday", "Saturday", "Sunday"]
 
     df_occurence = df.groupby([period], as_index=False).size()
     df_fatalities = df.groupby([period], as_index=False)["fatalities"].sum()
     data = pd.merge(df_occurence, df_fatalities, on=[period])
     if period == "month":
-        data = data.sort_values(by=period, key=lambda x: pd.to_datetime(x, format="%B")) 
+        data = data.sort_values(
+            by=period, key=lambda x: pd.to_datetime(x, format="%B"))
     elif period == "day_name":
-        data[period] = pd.Categorical(data[period], categories=day_order, ordered=True)
+        data[period] = pd.Categorical(
+            data[period], categories=day_order, ordered=True)
         data = data.sort_values(by=period)
 
     else:
         pass
 
     fig = px.bar(
-        data, x=period, y="size", color="size", color_continuous_scale="reds", 
+        data, x=period, y="size", color="size", color_continuous_scale="reds",
         text="size" if period != "day" else None
     )
     fig.update_coloraxes(showscale=False)
 
     fig.update_traces(textposition="outside", textfont=dict(size=10))
-    
-    
 
     fig.add_scatter(
         x=data[period], y=data["fatalities"],
@@ -216,8 +224,10 @@ def conflict_by_month_utils(df, period, title, is_ue=False):
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         margin=dict(t=50, b=30, r=0, l=0),
-        yaxis=dict(visible=False) if period != "day" else dict(showgrid=False, title=None),
-        yaxis2=dict(visible=False) if period != "day" else dict(showgrid=False, title=None),
+        yaxis=dict(visible=False) if period != "day" else dict(
+            showgrid=False, title=None),
+        yaxis2=dict(visible=False) if period != "day" else dict(
+            showgrid=False, title=None),
         xaxis=dict(nticks=30, title=None),
         font=dict(size=12, family="serif"),
         title={
@@ -237,15 +247,17 @@ def conflict_by_month_utils(df, period, title, is_ue=False):
 
 
 def ranking(df, area):
-    data = df.groupby([area], as_index=False).size().nlargest(columns="size", n=10)
-    fig = px.bar(data, x=area, y="size", color="size", color_continuous_scale="reds", text="size")
+    data = df.groupby([area], as_index=False).size().nlargest(
+        columns="size", n=10)
+    fig = px.bar(data, x=area, y="size", color="size",
+                 color_continuous_scale="reds", text="size")
     fig.update_coloraxes(showscale=False)
 
     fig.update_traces(textposition="outside", textfont=dict(size=10))
 
     fig.update_layout(
         template="plotly_dark",
-        height=280,
+        height=200,
         hovermode="x",
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
@@ -325,6 +337,46 @@ def heatmap_month(df):
             "xanchor": "right",
             "yanchor": "top",
         },
+    )
+
+    return fig
+
+
+def ranking_mapbox_utils(data):
+
+    initial_view_state = pdk.data_utils.compute_view(
+        df[["longitude", "latitude"]])
+
+    a = set(state_id_map.keys())
+    b = set(data["country"])
+    states = list(a.intersection(b))
+
+    data = data[data["country"].isin(states)]
+    data["id"] = data["country"].apply(lambda x: state_id_map[x])
+    data["events"] = data["size"].values
+
+    fig = go.Figure(
+        go.Choroplethmapbox(
+            z=data["events"]/4,
+            locations=data["id"],
+            geojson=data_country_geojson,
+            colorscale="reds",
+            # marker_line_color='white',
+            showscale=False
+        )
+    )
+
+    fig.update_layout(
+        height=400,
+        margin=dict(autoexpand=True, l=0, r=0, t=0, b=0),
+        mapbox=dict(
+            center={"lat": initial_view_state.latitude,
+                    "lon": initial_view_state.longitude},
+            accesstoken=mapbox_access_token,
+            style="mapbox://styles/mapbox/satellite-streets-v11",
+            zoom=2,
+            pitch=40
+        ),
     )
 
     return fig

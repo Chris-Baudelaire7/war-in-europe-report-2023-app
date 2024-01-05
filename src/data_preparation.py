@@ -1,6 +1,5 @@
 import pandas as pd
-import numpy as np
-
+import json
 
 def map_config(style):
     map_config = {
@@ -34,6 +33,18 @@ df_ue = df[~df.country.isin(["Ukraine", "Russia"])]
 #       (df["event_date"].dt.is_leap_year)),
 #     df["dayofyear"] - 1,
 # )
+
+
+data_country_geojson_path = "data/countries.geojson"
+data_country_geojson = json.load(open(data_country_geojson_path, "r"))
+
+state_id_map = {}
+
+for feature in data_country_geojson["features"]:
+    feature["id"] = feature["properties"]["ISO_A3"]
+    state_id_map[feature["properties"]["ADMIN"]] = feature["id"]
+
+
 
 
 # Summuru of key figure

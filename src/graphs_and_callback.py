@@ -1,7 +1,7 @@
 import datetime as dt
 import plotly.figure_factory as ff
 from plotly_calplot import calplot
-from dash import Input, Output, callback, html
+from dash import Input, Output, callback
 import plotly.express as px
 import plotly.graph_objects as go
 import pydeck as pdk
@@ -12,35 +12,37 @@ from data_preparation import *
 from utils import *
 
 
-
-
-
-
+mapbox_access_token = "pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg"
 
 
 # --------------------------------------------------- Pydeck ---------------------------------------------------------
 
 def total_events_Deck():
-    #data
-    data_sum = df.groupby(["longitude", "latitude", "location"], as_index=False)[["fatalities"]].sum()
-    data_occurence = df.groupby(["longitude", "latitude", "location"], as_index=False).size()
-    data = pd.merge(data_sum, data_occurence, on=["longitude", "latitude", "location"])
+    # data
+    data_sum = df.groupby(["longitude", "latitude", "location"], as_index=False)[
+        ["fatalities"]].sum()
+    data_occurence = df.groupby(
+        ["longitude", "latitude", "location"], as_index=False).size()
+    data = pd.merge(data_sum, data_occurence, on=[
+                    "longitude", "latitude", "location"])
     data["metric"] = data["fatalities"] + data["size"]
 
     # color
     cmap = plt.get_cmap("hot_r")
-    norm = colors.Normalize(vmin=data["metric"].min(), vmax=data["metric"].max())
+    norm = colors.Normalize(
+        vmin=data["metric"].min(), vmax=data["metric"].max())
     scalarmappable = cmx.ScalarMappable(norm=norm, cmap=cmap)
-    
+
     # Setting the viewport location
-    initial_view_state = pdk.data_utils.compute_view(data[["longitude", "latitude"]])
+    initial_view_state = pdk.data_utils.compute_view(
+        data[["longitude", "latitude"]])
     initial_view_state.zoom = 3
     initial_view_state.pitch = 50
     initial_view_state.bearing = 20
-    
+
     GREEN_RGB = [0, 255, 0]
     RED_RGB = [240, 100, 0]
-    
+
     # Define the layer to display on a map
     hexagonlayer = pdk.Layer(
         "HexagonLayer",
@@ -54,7 +56,7 @@ def total_events_Deck():
         extruded=True,
         auto_highlight=True,
     )
-    
+
     heatmapLayer = pdk.Layer(
         "HeatmapLayer",
         data=data,
@@ -65,24 +67,24 @@ def total_events_Deck():
         get_weight="metric",
         radius_pixels=150,
     )
-    
+
     tooltip = {
         "html": "<b>Location: {location}</b> <br> <b>Armed Conficts: {size}</b> <br> <b>Fatalities: {fatalities}</b>",
         "style": {
-            "background": "white", 
-            "color": "black", 
+            "background": "white",
+            "color": "black",
             "font-family": 'serif, Arial',
             "z-index": "10000"
         },
     }
-        
+
     maps = pdk.Deck(
-        layers=[hexagonlayer, heatmapLayer], 
-        tooltip=tooltip, 
+        layers=[hexagonlayer, heatmapLayer],
+        tooltip=tooltip,
         initial_view_state=initial_view_state,
         **map_config("mapbox://styles/mapbox/satellite-streets-v11")
     )
-    
+
     return maps, tooltip
 
 
@@ -93,18 +95,21 @@ def choropleth_europe_globale():
     d = df.groupby(["country"], as_index=False).size()
     input_countries = d["country"].unique()
     d = render_codes_and_flag(d, input_countries)
-    
-    fig = choropleth_europe(d, "size", d['size'].min(), d['size'].max()/4, px.colors.sequential.Reds)
+
+    fig = choropleth_europe(d, "size", d['size'].min(
+    ), d['size'].max()/4, px.colors.sequential.Reds)
 
     return fig
 
+
 def choropleth_europe_ue():
-    
+
     d = df_ue.groupby(["country"], as_index=False).size()
     input_countries = d["country"].unique()
     d = render_codes_and_flag(d, input_countries)
-    
-    fig = choropleth_europe(d, "size", d['size'].min(), d['size'].max(), px.colors.sequential.Reds)
+
+    fig = choropleth_europe(d, "size", d['size'].min(
+    ), d['size'].max(), px.colors.sequential.Reds)
 
     return fig
 
@@ -114,13 +119,14 @@ def choropleth_europe_ue():
     Input("select-event", "value")
 )
 def choropleth_europe_by_event_type(event_type):
-    
+
     d = df[df["event_type"] == event_type]
     d = d.groupby(["country"], as_index=False).size()
     input_countries = d["country"].unique()
     d = render_codes_and_flag(d, input_countries)
-    
-    fig = choropleth_europe(d, "size", d['size'].min(), d['size'].max(), px.colors.sequential.YlOrRd)
+
+    fig = choropleth_europe(d, "size", d['size'].min(
+    ), d['size'].max(), px.colors.sequential.YlOrRd)
 
     return fig
 
@@ -132,10 +138,12 @@ def choropleth_europe_by_event_type(event_type):
     Input("select-event", "value")
 )
 def mapbox(event_type):
-    dframe = df[df["event_type"] == event_type].groupby(["latitude", "longitude"], as_index=False).size()
+    dframe = df[df["event_type"] == event_type].groupby(
+        ["latitude", "longitude"], as_index=False).size()
 
-    initial_view_state = pdk.data_utils.compute_view(dframe[["longitude", "latitude"]])
-    
+    initial_view_state = pdk.data_utils.compute_view(
+        dframe[["longitude", "latitude"]])
+
     fig = go.Figure(
         go.Densitymapbox(
             lat=dframe.latitude, lon=dframe.longitude, z=dframe["size"],
@@ -149,49 +157,21 @@ def mapbox(event_type):
         hovermode='closest',
         margin=dict(autoexpand=True, l=0, r=0, b=0, t=0),
         mapbox=dict(
-            center={"lat": initial_view_state.latitude, "lon": initial_view_state.longitude},
-            accesstoken="pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg",
+            center={"lat": initial_view_state.latitude,
+                    "lon": initial_view_state.longitude},
+            accesstoken=mapbox_access_token,
             # mapbox://styles/mapbox/satellite-streets-v11
             style="mapbox://styles/mapbox/satellite-streets-v11",
             zoom=3,
             pitch=30
         ),
     )
-    
+
     return fig
 
 
 def mapbox_ue():
     dframe = df_ue.groupby(["latitude", "longitude"], as_index=False).size()
-
-    initial_view_state = pdk.data_utils.compute_view(dframe[["longitude", "latitude"]])
-    
-    fig = go.Figure(
-        go.Densitymapbox(
-            lat=dframe.latitude, lon=dframe.longitude, z=dframe["size"],
-            colorscale="rainbow", showscale=False, zmin=-2000, radius=30
-        ),
-    )
-
-    fig.update_layout(
-        autosize=True,
-        height=310,
-        hovermode='closest',
-        margin=dict(autoexpand=True, l=0, r=0, b=0, t=0),
-        mapbox=dict(
-            center={"lat": initial_view_state.latitude, "lon": initial_view_state.longitude},
-            accesstoken="pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg",
-            style="mapbox://styles/mapbox/satellite-streets-v11",
-            zoom=2.5,
-            pitch=40
-        ),
-    )
-    
-    return fig
-
-
-def mapbox_ukraine():
-    dframe = df[df["country"] == "Ukraine"].groupby(["latitude", "longitude"], as_index=False).size()
 
     initial_view_state = pdk.data_utils.compute_view(
         dframe[["longitude", "latitude"]])
@@ -211,7 +191,39 @@ def mapbox_ukraine():
         mapbox=dict(
             center={"lat": initial_view_state.latitude,
                     "lon": initial_view_state.longitude},
-            accesstoken="pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg",
+            accesstoken=mapbox_access_token,
+            style="mapbox://styles/mapbox/satellite-streets-v11",
+            zoom=2.5,
+            pitch=40
+        ),
+    )
+
+    return fig
+
+
+def mapbox_ukraine():
+    dframe = df[df["country"] == "Ukraine"].groupby(
+        ["latitude", "longitude"], as_index=False).size()
+
+    initial_view_state = pdk.data_utils.compute_view(
+        dframe[["longitude", "latitude"]])
+
+    fig = go.Figure(
+        go.Densitymapbox(
+            lat=dframe.latitude, lon=dframe.longitude, z=dframe["size"],
+            colorscale="rainbow", showscale=False, zmin=-2000, radius=30
+        ),
+    )
+
+    fig.update_layout(
+        autosize=True,
+        height=310,
+        hovermode='closest',
+        margin=dict(autoexpand=True, l=0, r=0, b=0, t=0),
+        mapbox=dict(
+            center={"lat": initial_view_state.latitude,
+                    "lon": initial_view_state.longitude},
+            accesstoken=mapbox_access_token,
             style="mapbox://styles/mapbox/satellite-streets-v11",
             zoom=4.6,
             pitch=40
@@ -228,7 +240,8 @@ def mapbox_ukraine():
 def mapbox_calendar(date):
     data = df[df["event_date"] == date]
     data = data.groupby(["latitude", "longitude"], as_index=False).size()
-    initial_view_state = pdk.data_utils.compute_view(data[["longitude", "latitude"]])
+    initial_view_state = pdk.data_utils.compute_view(
+        data[["longitude", "latitude"]])
 
     fig = go.Figure(
         go.Densitymapbox(
@@ -245,7 +258,7 @@ def mapbox_calendar(date):
         mapbox=dict(
             center={"lat": initial_view_state.latitude,
                     "lon": initial_view_state.longitude},
-            accesstoken="pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg",
+            accesstoken=mapbox_access_token,
             style="mapbox://styles/mapbox/satellite-streets-v11",
             zoom=2.8,
             pitch=40
@@ -258,7 +271,7 @@ def mapbox_calendar(date):
 # ------------------------------------------------- Bar Charts --------------------------------------------------------
 
 @callback(
-    Output("bar-period","figure"),
+    Output("bar-period", "figure"),
     Input("select-period", "value")
 )
 def conflict_by_month(value):
@@ -304,11 +317,14 @@ def ranking_city_ue():
 def timeseries(period):
     year = 2023
     data = df.groupby(["dayofyear"], as_index=False).size()
-    data["fatalities"] = (df.groupby("dayofyear", as_index=False)["fatalities"].sum())["fatalities"]
-    data["date"] = data["dayofyear"].apply(lambda x: dt.datetime(year, 1, 1) + dt.timedelta(days=x - 1))
+    data["fatalities"] = (df.groupby("dayofyear", as_index=False)[
+                          "fatalities"].sum())["fatalities"]
+    data["date"] = data["dayofyear"].apply(
+        lambda x: dt.datetime(year, 1, 1) + dt.timedelta(days=x - 1))
     data["moving_average"] = data["size"].rolling(window=7).mean()
-    data["moving_average_fatalities"] = data["fatalities"].rolling(window=7).mean()
-    
+    data["moving_average_fatalities"] = data["fatalities"].rolling(
+        window=7).mean()
+
     # def mean_value(col_event, col_fatalities, period):
     #     return (
     #         fig.add_hline(
@@ -331,44 +347,42 @@ def timeseries(period):
     #             )
     #         )
     #     )
-        
-        
 
     fig = go.Figure()
-    
+
     if period == "daily":
-    
+
         fig.add_scatter(
             x=data["date"], y=data["size"],
             line=dict(color="orangered", width=1),
             name="Armed conflict (Raw data)"
         )
-        
+
         fig.add_scatter(
             x=data["date"], y=data["fatalities"],
             line=dict(color="firebrick", width=1.86),
             name="fatalities"
         )
-                
+
     elif period == "weekly_mean_line":
         fig.add_scatter(
             x=data["date"], y=data["moving_average"],
             line=dict(color="orangered", width=1.86),
             name="1-week Moving Average"
         )
-        
+
         fig.add_scatter(
             x=data["date"], y=data["moving_average_fatalities"],
             line=dict(color="firebrick", width=1.86),
             name="1-week Moving Average",
         )
-                
+
     else:
-        fig = px.area(data, x="date", y=["moving_average_fatalities", "moving_average"])
+        fig = px.area(data, x="date", y=[
+                      "moving_average_fatalities", "moving_average"])
         for trace, color in zip(fig.data, ["orangered", "firebrick"]):
             trace.update(line=dict(color=color))
-            
-    
+
     months_with_days = {
         month: (
             dt.datetime(year, month, 1),
@@ -431,20 +445,23 @@ def timeseries(period):
 def world_vs_ukraine(metric):
     year = 2023
     df_ukraine = df[df["country"] == "Ukraine"]
-    
+
     if metric == "weekly_mean_event":
-        df_ukraine = (df_ukraine.groupby(["dayofyear"], as_index=False).size()).rename(columns={"size": "ukraine"})
-        df_rest_of_europe = (df_ue.groupby(["dayofyear"], as_index=False).size()).rename(columns={"size": "ue"})
+        df_ukraine = (df_ukraine.groupby(["dayofyear"], as_index=False).size()).rename(
+            columns={"size": "ukraine"})
+        df_rest_of_europe = (df_ue.groupby(
+            ["dayofyear"], as_index=False).size()).rename(columns={"size": "ue"})
     else:
         df_ukraine = (df_ukraine.groupby(["dayofyear"], as_index=False)[
             ["fatalities"]].sum()).rename(columns={"fatalities": "ukraine"})
         df_rest_of_europe = (df_ue.groupby(["dayofyear"], as_index=False)[
             "fatalities"].sum()).rename(columns={"fatalities": "ue"})
-    
+
     data = pd.merge(df_ukraine, df_rest_of_europe, on="dayofyear")
-    
-    data["date"] = data["dayofyear"].apply(lambda x: dt.datetime(year, 1, 1) + dt.timedelta(days=x - 1))
-    
+
+    data["date"] = data["dayofyear"].apply(
+        lambda x: dt.datetime(year, 1, 1) + dt.timedelta(days=x - 1))
+
     data["moving_average_ukraine"] = data["ukraine"].rolling(window=7).mean()
     data["moving_average_ue"] = data["ue"].rolling(window=7).mean()
 
@@ -455,7 +472,7 @@ def world_vs_ukraine(metric):
         line=dict(color="orangered", width=1.86),
         name="1-week Moving Average"
     )
-    
+
     fig.add_scatter(
         x=data["date"], y=data["moving_average_ukraine"],
         line=dict(color="firebrick", width=1.86),
@@ -538,7 +555,7 @@ def distribution_ev_fat(bin_ev, bin_fat):
         hist_data = [val]
         group_labels = [name]
         fig = ff.create_distplot(hist_data, group_labels, bin_size=bin_size, histnorm="", show_curve=False,
-                                show_rug=False, curve_type="normal", colors=[color])
+                                 show_rug=False, curve_type="normal", colors=[color])
 
         fig.update_layout(
             **update_layout_simple,
@@ -561,14 +578,13 @@ def distribution_ev_fat(bin_ev, bin_fat):
             },
             dragmode="select"
         )
-        
+
         return fig
-        
-    fig_event, fig_fatalities = dist(x, bin_ev, "Events", "orangered"), dist(y, bin_fat, "Fatalities", "firebrick")
-        
+
+    fig_event, fig_fatalities = dist(x, bin_ev, "Events", "orangered"), dist(
+        y, bin_fat, "Fatalities", "firebrick")
+
     return fig_event, fig_fatalities
-    
-    
 
 
 @callback(
@@ -577,13 +593,14 @@ def distribution_ev_fat(bin_ev, bin_fat):
 )
 def distribution_events_type(event_type):
     cause, period = "size", "dayofyear"
-    
-    data = df[df["event_type"] == event_type].groupby([period], as_index=False).size()
+
+    data = df[df["event_type"] == event_type].groupby(
+        [period], as_index=False).size()
 
     x = data[cause].values
     hist_data = [x]
     group_labels = ['distplot']
-    
+
     bin_size = 10 if event_type == "Protests" else 1
 
     fig = ff.create_distplot(hist_data, group_labels, bin_size=bin_size, histnorm="", show_curve=False,
@@ -615,9 +632,10 @@ def distribution_events_type(event_type):
 
 def distribution_conflict_ue():
     cause, period = "size", "dayofyear"
-    
+
     data_ue = df_ue.groupby([period], as_index=False).size()
-    data_ukraine = df[df["country"] == "Ukraine"].groupby([period], as_index=False).size()
+    data_ukraine = df[df["country"] == "Ukraine"].groupby(
+        [period], as_index=False).size()
 
     x = data_ue[cause].values
     y = data_ukraine[cause].values
@@ -651,12 +669,12 @@ def distribution_conflict_ue():
     return fig
 
 
-
 # ------------------------------------------------------ Heatmap --------------------------------------------------------
 
 
 def heatmap_month_all_countries():
     return heatmap_month(df)
+
 
 def heatmap_month_without_uk_and_rus():
     return heatmap_month(df_ue)
@@ -668,7 +686,7 @@ def heatmap_month_without_uk_and_rus():
 def disorder_type():
     labels, values = "disorder_type", "count"
     data = df[labels].value_counts().to_frame().reset_index()
-    return pie_chart(data, labels ,values, "Monthly Trend of Natural Disasters")
+    return pie_chart(data, labels, values, "Monthly Trend of Natural Disasters")
 
 
 def events_type():
@@ -681,12 +699,14 @@ def events_type():
     Output("rate_deaths", "figure"),
     Input("area", "value")
 )
-def rate_deaths(value):   
+def rate_deaths(value):
     dframe = df.copy() if value == "all" else df_ue.copy()
     labels, values, n = "country", "fatalities", 1
-    data = dframe.groupby([labels], as_index=False)[values].sum().sort_values(by=values, ascending=False)
+    data = dframe.groupby([labels], as_index=False)[
+        values].sum().sort_values(by=values, ascending=False)
     other = data.iloc[n:][values].sum()
-    new_row = pd.DataFrame({"country": ['Other<br>European<br>countries'], values: [other]})
+    new_row = pd.DataFrame(
+        {"country": ['Other<br>European<br>countries'], values: [other]})
     data = pd.concat([data.iloc[:n], new_row], ignore_index=True)
 
     return pie_chart(data, labels, values, "Monthly Trend of Natural Disasters")
@@ -700,7 +720,8 @@ def rate_deaths(value):
 )
 def disorder_type_time_series(graph):
     title = "Catastrophes naturelles enregistrées<br>chaque année"
-    colors = ['rgb(252,187,161)', 'rgb(251,106,74)', 'rgb(203,24,29)', 'rgb(103,0,13)'][::-1]
+    colors = ['rgb(252,187,161)', 'rgb(251,106,74)',
+              'rgb(203,24,29)', 'rgb(103,0,13)'][::-1]
     return timeseries_by_categories(title, "disorder_type", "size", colors, [2, 1, 3, 0], graph)
 
 
@@ -710,7 +731,8 @@ def disorder_type_time_series(graph):
 )
 def event_type_time_series(graph):
     title = "Catastrophes naturelles enregistrées<br>chaque année"
-    colors = ['rgb(255,245,240)', 'rgb(254,224,210)', 'rgb(252,187,161)','rgb(251,106,74)', 'rgb(203,24,29)', 'rgb(103,0,13)'][::-1]
+    colors = ['rgb(255,245,240)', 'rgb(254,224,210)', 'rgb(252,187,161)',
+              'rgb(251,106,74)', 'rgb(203,24,29)', 'rgb(103,0,13)'][::-1]
 
     return timeseries_by_categories(title, "event_type", "size", colors, [1, 2, 0, 4, 3, 5], graph)
 
@@ -718,18 +740,18 @@ def event_type_time_series(graph):
 # ------------------------------------------------------- Calendar -----------------------------------------------------------
 
 def calendar():
-    data = df.groupby("event_date",as_index=False).size()
+    data = df.groupby("event_date", as_index=False).size()
     data["event_date"] = pd.to_datetime(data["event_date"])
-    
+
     fig = calplot(data, x="event_date", y="size", dark_theme=True, colorscale="reds",
-                month_lines_color="black", month_lines_width=3, total_height=250)
+                  month_lines_color="black", month_lines_width=3, total_height=250)
     fig.update_layout(
         template="plotly_dark",
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         margin=dict(t=40, b=0, r=0, l=0),
-        
-        title = {
+
+        title={
             "text": (
                 f"<b>2023 Wars Calendar</b><br />"
                 f"<sup style='color:silver'>All wars perpetrated in Europe"
@@ -741,23 +763,23 @@ def calendar():
             "yanchor": "top",
         }
     )
-    
+
     return fig
 
 
 def calendar_fatalities():
-    data = df.groupby("event_date",as_index=False)["fatalities"].sum()
+    data = df.groupby("event_date", as_index=False)["fatalities"].sum()
     data["event_date"] = pd.to_datetime(data["event_date"])
-    
+
     fig = calplot(data, x="event_date", y="fatalities", dark_theme=True, colorscale="ylorrd",
-                month_lines_color="black", month_lines_width=3, total_height=250)
+                  month_lines_color="black", month_lines_width=3, total_height=250)
     fig.update_layout(
         template="plotly_dark",
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         margin=dict(t=40, b=0, r=0, l=0),
-        
-        title = {
+
+        title={
             "text": (
                 f"<b>2023 Fatalities Calendar</b><br />"
                 f"<sup style='color:silver'>All fatalities due to conflict in Europe"
@@ -769,8 +791,7 @@ def calendar_fatalities():
             "yanchor": "top",
         },
     )
-    
-    
+
     return fig
 
 
@@ -782,3 +803,23 @@ def calendar_fatalities():
 def update_date(clickData):
     date = clickData["points"][0]["customdata"][0] if clickData else None
     return date
+
+
+def ranking_mapbox():
+    data = df.groupby("country", as_index=False).size()
+    return ranking_mapbox_utils(data)
+
+
+def ranking_mapbox_ue():
+    data = df_ue.groupby("country", as_index=False).size()
+    return ranking_mapbox_utils(data)
+
+
+@callback(
+    Output("event-type-mapboxe", "figure"),
+    Input("select-event", "value")
+)
+def update_mapbox_event_type(event_type):
+    data = (df[df["event_type"] == event_type]).groupby(
+        "country", as_index=False).size()
+    return ranking_mapbox_utils(data)

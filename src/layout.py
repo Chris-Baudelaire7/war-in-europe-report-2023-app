@@ -13,14 +13,13 @@ access_api_token = "pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmM
 r, tooltip = total_events_Deck()
 
 
-
-
 layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-auto", children=[
 
     html.Div(className="row", children=[
         html.Div(className="col-lg-8", children=[
             html.Div(className="", children=[
-                ddk.DeckGL(r.to_json(), id="deck-gl", tooltip=tooltip, mapboxKey=access_api_token),
+                ddk.DeckGL(r.to_json(), id="deck-gl",
+                           tooltip=tooltip, mapboxKey=access_api_token),
             ])
         ]),
 
@@ -37,19 +36,21 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
             # ]),
             html.Div(className="", children=[
                 daq_comp("daq-slider-events"),
-                dcc.Graph(config=dict(displayModeBar=False), id="distribution_events"),
-            ]),
-            
-            html.Div(className="mt-3", id="test", children=[
-                
-            ]),
-            
-            html.Div(className="mt-3", children=[
-                daq_comp("daq-slider-fatalities"),
-                dcc.Graph(config=dict(displayModeBar=False), id="distribution_fatalities"),
+                dcc.Graph(config=dict(displayModeBar=False),
+                          id="distribution_events"),
             ]),
 
-            #timeline
+            html.Div(className="mt-3", id="test", children=[
+
+            ]),
+
+            html.Div(className="mt-3", children=[
+                daq_comp("daq-slider-fatalities"),
+                dcc.Graph(config=dict(displayModeBar=False),
+                          id="distribution_fatalities"),
+            ]),
+
+            # timeline
         ]),
     ]),
 
@@ -75,7 +76,8 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
             html.Br(),
 
-            html.Span(f"{df['fatalities'].sum()}", className="text-danger fs-3"),
+            html.Span(f"{df['fatalities'].sum()}",
+                      className="text-danger fs-3"),
             html.Span(" deaths recorded"),
 
             html.Br(),
@@ -88,7 +90,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
     # html.Div(className="my-5", style={"fontFamily": "serif"}, children=[
     #     dmc.Alert(title="War in Ukraine🇺🇦 !", color="red", children=[
     #         dcc.Markdown(
-    #             """                
+    #             """
     #             monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée de groupesterroristes, laj facilité accrue de communication et de recrutement grâce à Internet, ainsi que les conflits égionaux et des cellules terroristes dans de nombreux pays.""",
 
     #             className="text-dark comments",
@@ -103,23 +105,24 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
     html.Div(className="row align-items-center mt-3", children=[
         html.Div(className="col-md-6", children=[
-            
+
             dcc.Loading(
                 dcc.Graph(config=dict(displayModeBar=False), id="timeseries"),
                 type="circle", color="firebrick"
             ),
-            
+
             html.Div(className="selection d-flex justify-content-center mt-2", children=[
                 dmc.ChipGroup(value="weekly_mean_line", id="period-type", children=[
                     dmc.Chip(x, value=y, size="sm", color="red")
                     for x, y in zip(
-                        ["Daily trends (Raw data)", "Weekly mean (line)", "Weekly mean (area)"],
+                        ["Daily trends (Raw data)", "Weekly mean (line)",
+                         "Weekly mean (area)"],
                         ["daily", "weekly_mean_line", "weekly_mean_area"]
                     )
                 ])
             ])
         ]),
-        
+
         html.Div(className="col-md-2", children=[
             dcc.Markdown(
                 """
@@ -137,7 +140,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
         ]),
 
         html.Div(className="col-md-4", children=[
-            
+
             html.Div(className="selection d-flex justify-content-center", children=[
                 dmc.ChipGroup(value="all", id="area", children=[
                     dmc.Chip(x, value=y, size="sm", color="red")
@@ -147,7 +150,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                     )
                 ])
             ]),
-            
+
             dcc.Graph(config=dict(displayModeBar=False), id="rate_deaths"),
         ]),
 
@@ -162,14 +165,15 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
             )
         ])
     ]),
-    
-    
+
+
     html.Div(className="row justify-content-center align-items-center mt-4", children=[
-        
+
         html.Div(className="col-md-4", children=[
-            dcc.Graph(config=dict(displayModeBar=False), figure=distribution_conflict_ue()),
+            dcc.Graph(config=dict(displayModeBar=False),
+                      figure=distribution_conflict_ue()),
         ]),
-        
+
         html.Div(className="col-md-6", children=[
 
             dcc.Loading(
@@ -187,7 +191,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                 ])
             ])
         ]),
-        
+
         html.Div(className="col-md-2", children=[
             dcc.Markdown(
                 """
@@ -199,8 +203,8 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                 className="small_comments",
             )
         ]),
-        
-        
+
+
         html.Div(className="col-12 mt-3", children=[
             dcc.Markdown(
                 """
@@ -210,16 +214,16 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                 className="comments",
             )
         ]),
-        
-        
-        
+
+
+
     ]),
-    
+
     # ----------------------------------------------------------------------------------------------------------------------
-    
-    
+
+
     html.Div(className="row justify-content-center mt-4", children=[
-        
+
         html.Div(className="col-md-2", children=[
             dcc.Markdown(
                 """
@@ -235,20 +239,21 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                 className="small_comments",
             )
         ]),
-        
+
         html.Div(className="col-md-5", children=[
             dcc.Graph(config=dict(displayModeBar=False), figure=mapbox_ue()),
         ]),
-        
+
         html.Div(className="col-md-5", children=[
-            dcc.Graph(config=dict(displayModeBar=False), figure=mapbox_ukraine()),
+            dcc.Graph(config=dict(displayModeBar=False),
+                      figure=mapbox_ukraine()),
         ]),
     ]),
-    
-    
+
+
     # ----------------------------------------------------------------------------------------------------------------------
-    
-    
+
+
     html.Div(className="mt-5", children=[
         dcc.Markdown(
             """ 
@@ -260,35 +265,35 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
     ]),
 
     # ---------------------------------------------------------------------------------------------------------------------
-    
-    
+
+
     html.Div(className="row", children=[
-        
+
         dcc.Markdown(
             """                
                 *We adopted this approach to prevent bias in the analysis due to the high number of conflicts and deaths in Ukraine. Additionally, Russia's extensive geographical span, bordering both Europe and Asia, is often excluded when considering European countries.*
             """,
             className="comments",
         )
-        
+
     ]),
 
 
 
     # --------------------------------------------------------------------------------------------------------------------
 
-    
+
 
     html.Div(className="row align-items-center mt-5", children=[
-        
+
         html.Div(className="col", children=[
             dbc.Tabs(class_name="tabular", children=[
                 dbc.Tab(
-                    label="Repartition en pourcentage", 
+                    label="Repartition en pourcentage",
                     tab_style=tab_style,
                     active_tab_style=active_tab_style,
                     children=[
-                        
+
                         html.Div(className="row align-items-center mt-5", children=[
 
                             html.Div(className="col-md-2", children=[
@@ -303,7 +308,8 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                             ]),
 
                             html.Div(className="col-md-4", children=[
-                                dcc.Graph(config=dict(displayModeBar=False), figure=heatmap_month_all_countries()),
+                                dcc.Graph(config=dict(displayModeBar=False),
+                                          figure=heatmap_month_all_countries()),
                             ]),
 
                             html.Div(className="col-md-2", children=[
@@ -326,7 +332,8 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                                         dmc.Chip(
                                             x, value=y, size="sm", color="red")
                                         for x, y in zip(
-                                            ["Month of year", "Days of week","Days of month"],
+                                            ["Month of year", "Days of week",
+                                                "Days of month"],
                                             ["month", "day_name", "day"]
                                         )
                                     ])
@@ -336,31 +343,34 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                         ]),
 
                         html.Div(className="row align-items-center", children=[
-                            html.Div(className="col-md-7", children=[
-                                dcc.Graph(config=dict(displayModeBar=False), figure=choropleth_europe_globale()),
+                            html.Div(className="col-md-5", children=[
+                                dcc.Graph(config=dict(
+                                    displayModeBar=False), figure=ranking_mapbox()),
                             ]),
 
                             html.Div(className="col-md-5", children=[
-                                
+
                                 html.Div(className="col-md-12", children=[
-                                    dcc.Graph(config=dict(displayModeBar=False), figure=ranking_country()),
+                                    dcc.Graph(config=dict(
+                                        displayModeBar=False), figure=ranking_country()),
                                 ]),
-                                
+
                                 html.Div(className="col-md-12", children=[
-                                    dcc.Graph(config=dict(displayModeBar=False), figure=ranking_city()),
+                                    dcc.Graph(config=dict(
+                                        displayModeBar=False), figure=ranking_city()),
                                 ]),
 
                             ]),
                         ])
                     ]
                 ),
-                
+
                 dbc.Tab(
                     label="Evolution temporelle absolue/relative",
                     active_tab_style=active_tab_style,
                     class_name="bg-danger",
                     children=[
-                        
+
                         html.Div(className="row align-items-center mt-5", children=[
 
                             html.Div(className="col-md-2", children=[
@@ -375,7 +385,8 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                             ]),
 
                             html.Div(className="col-md-4", children=[
-                                dcc.Graph(config=dict(displayModeBar=False), figure=heatmap_month_without_uk_and_rus()),
+                                dcc.Graph(config=dict(displayModeBar=False),
+                                          figure=heatmap_month_without_uk_and_rus()),
                             ]),
 
                             html.Div(className="col-md-2", children=[
@@ -390,14 +401,16 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                             ]),
 
                             html.Div(className="col-md-4", children=[
-                                dcc.Graph(id="bar-period-wur", config=dict(displayModeBar=False)),
+                                dcc.Graph(id="bar-period-wur",
+                                          config=dict(displayModeBar=False)),
 
                                 html.Div(className="selection d-flex justify-content-center", children=[
                                     dmc.ChipGroup(value="month", id="select-period-wur", children=[
                                         dmc.Chip(
                                             x, value=y, size="sm", color="red")
                                         for x, y in zip(
-                                            ["Month of year", "Days of week","Days of month"],
+                                            ["Month of year", "Days of week",
+                                                "Days of month"],
                                             ["month", "day_name", "day"]
                                         )
                                     ])
@@ -405,72 +418,59 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                             ]),
 
                         ]),
-        
-                        
-                        html.Div(className="row align-items-center", children=[
 
-                            html.Div(className="col-md-7", children=[
-                                dcc.Graph(config=dict(displayModeBar=False), figure=choropleth_europe_ue()),
-                            ]),
+
+                        html.Div(className="row align-items-center", children=[
 
                             html.Div(className="col-md-5", children=[
 
                                 html.Div(className="row align-items-center", children=[
 
                                     html.Div(className="col-md-12", children=[
-                                        dcc.Graph(config=dict(displayModeBar=False), figure=ranking_city_ue()),
+                                        dcc.Graph(config=dict(
+                                            displayModeBar=False), figure=ranking_city_ue()),
                                     ]),
 
                                     html.Div(className="col-md-12", children=[
-                                        dcc.Graph(config=dict(displayModeBar=False), figure=ranking_country_ue()),
+                                        dcc.Graph(config=dict(
+                                            displayModeBar=False), figure=ranking_country_ue()),
                                     ])
 
                                 ])
 
-                            ])
+                            ]),
+
+                            html.Div(className="col-md-2", children=[
+                                dcc.Markdown(
+                                    """
+                                    ###### Dans l'ensemble, le nombre d'attaques terroristes dans
+                                    
+                                    monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs""",
+
+                                    className="small_comments",
+                                )
+                            ]),
+
+                            html.Div(className="col-md-5", children=[
+                                dcc.Graph(config=dict(
+                                    displayModeBar=False), figure=ranking_mapbox_ue()),
+                            ]),
 
                         ])
                     ]
                 ),
             ])
-        ]),
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        ])
 
-        
-        
-        
     ]),
 
 
-    # --------------------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------------------------------
+
 
     html.H3("More than half of conflicts are politically motivated",
             className="mt-5 mb-3"),
+
     html.Div(className="", children=[
         dcc.Markdown(
             """
@@ -483,7 +483,8 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
     html.Div(className="row align-items-center mt-3", children=[
         html.Div(className="col-lg-5", children=[
-            dcc.Graph(config=dict(displayModeBar=False), figure=disorder_type()),
+            dcc.Graph(config=dict(displayModeBar=False),
+                      figure=disorder_type()),
         ]),
 
         html.Div(className="col-md-2", children=[
@@ -503,7 +504,8 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
         ]),
 
         html.Div(className="col-md-5", children=[
-            dcc.Graph(config=dict(displayModeBar=False), id="disorder-type-time-series"),
+            dcc.Graph(config=dict(displayModeBar=False),
+                      id="disorder-type-time-series"),
             html.Div(className="selection d-flex justify-content-center", children=[
                 dmc.ChipGroup(value="line", id="disorder-graph", children=[
                     dmc.Chip(x, value=y, size="sm", color="red")
@@ -534,7 +536,8 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
         ]),
 
         html.Div(className="col-md-5", children=[
-            dcc.Graph(config=dict(displayModeBar=False),id="event-type-time-series"),
+            dcc.Graph(config=dict(displayModeBar=False),
+                      id="event-type-time-series"),
             html.Div(className="selection d-flex justify-content-center", children=[
                 dmc.ChipGroup(value="line", id="event-graph", children=[
                     dmc.Chip(x, value=y, size="sm", color="red")
@@ -554,7 +557,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
 
     html.Div(className="row mt-4", children=[
-        
+
         html.H5("From a geospatial perspective", className="mb-4"),
 
         html.Div(className="col-md-3", children=[
@@ -568,7 +571,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                     placeholder="Choose an event type",
                 )
             ]),
-            
+
             dcc.Markdown(
                 """
                 ###### Dans l'ensemble, le nombre d'attaques terroristes dans le 
@@ -580,20 +583,28 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
         ]),
 
         html.Div(className="col-md-5", children=[
-            dcc.Graph(id="event-type-mapbox", config=dict(displayModeBar=False)),
+            dcc.Graph(id="event-type-mapbox",
+                      config=dict(displayModeBar=False)),
         ]),
 
         html.Div(className="col-md-4", children=[
-            dcc.Graph(config=dict(displayModeBar=False), id="distribution-event-type"),
+            dcc.Graph(config=dict(displayModeBar=False),
+                      id="distribution-event-type"),
         ]),
 
     ]),
 
     html.Div(className="row align-items-center mt", children=[
 
-        html.Div(className="col-md-7", children=[
-            dcc.Graph(config=dict(displayModeBar=False),
-                      id="event-type-choropleth"),
+        html.Div(className="col-md-2", children=[
+            dcc.Markdown(
+                """
+                ###### Dans l'ensemble, le nombre d'attaques terroristes dans
+                                    
+                monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs""",
+
+                className="small_comments",
+            )
         ]),
 
         html.Div(className="col-md-5", children=[
@@ -611,25 +622,32 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
             ])
         ]),
+
+        html.Div(className="col-md-5", children=[
+            dcc.Graph(config=dict(displayModeBar=False),
+                      id="event-type-mapboxe"),
+        ]),
     ]),
 
-    
+
     # ----------------------------------------------------------------------------------------------------------------
 
-    
+
     html.H3("The Calendar of Armed Conflicts in Europe", className="my-5 pt-3"),
-    
+
     html.Div(className="row align-items-center mt-3", children=[
         html.Div(className="col-md-6", children=[
-            
+
             html.Div(className="mt-3", children=[
-                dcc.Graph(config=dict(displayModeBar=False), figure=calendar(), id="calendar"),
+                dcc.Graph(config=dict(displayModeBar=False),
+                          figure=calendar(), id="calendar"),
             ]),
-            
+
             html.Div(className="my-2", children=[
-                dcc.Graph(config=dict(displayModeBar=False), figure=calendar_fatalities(), id="calendar_fatalities"),
+                dcc.Graph(config=dict(displayModeBar=False),
+                          figure=calendar_fatalities(), id="calendar_fatalities"),
             ]),
-            
+
             dcc.Markdown(
                 """
                 ###### Conflicts and fatalities every day 
@@ -639,7 +657,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                 className="small_comments",
             ),
         ]),
-        
+
         html.Div(className="col-md-6 justify-content-end", children=[
 
             html.Div(className="md-inline text-end", children=[
@@ -665,38 +683,39 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
             dcc.Graph(config=dict(displayModeBar=False), id="map-calendar"),
         ]),
-        
-        
+
+
     ]),
 
 
     # ----------------------------------------------------------------------------------------------------------------
-    
-    html.Hr(className="my-5 pt-5"),
-    html.H3("Summary of Key Figures", className="pt-3"),
+
+    html.Hr(className="mt-5"),
+    html.H3("Summary of Key Figures", className="mt-5 pt-5"),
 
     html.Div(className="row align-items-center mt-3", children=[
         html.Div(className="col-12", children=[
             grid
         ])
     ]),
-    
-    
-    # ----------------------------------------------------------------------------------------------------------------    
-    
-    
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+
+
     html.Div(className="separate my-5"),
-    
+
 
     html.Div(className="row align-items-center text-center", children=[
-        
+
         html.H1(className="display-1 fw-bold", children=[
             html.Span("Analytics", className="text-white"),
             html.Span("Paper", className="text-red", style={'color': 'red'})
         ]),
-        
-        html.Span("By Chris Baudelaire .K", className="text-white fw-bold mb-3"),
-        
+
+        html.Span("By Chris Baudelaire .K",
+                  className="text-white fw-bold mb-3"),
+
         # html.Div(className="div-img", children=[
         #     html.Img(
         #         src=dash.get_asset_url('profile_picture.png'),
@@ -704,8 +723,8 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
         #         style={"height": "160px", "width": "180px"}
         #     ),
         # ]),
-        
+
         html.Span("Powered by Plotly/Dash", className=""),
-        
+
     ]),
 ])
