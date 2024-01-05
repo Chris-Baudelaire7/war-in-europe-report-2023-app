@@ -30,4 +30,4 @@ app.layout = html.Div(className="app", children=[
     navbar, layout
 ])
 
-app.run_server(**server_params, port="0.0.0.0:2322")
+app.run_server(**server_params, port="5322")
