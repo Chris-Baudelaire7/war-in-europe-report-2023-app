@@ -12,12 +12,6 @@ from data_preparation import *
 from utils import *
 
 
-
-
-
-
-
-
 # --------------------------------------------------- Pydeck ---------------------------------------------------------
 
 def total_events_Deck():
@@ -26,20 +20,12 @@ def total_events_Deck():
     data_occurence = df.groupby(["longitude", "latitude", "location"], as_index=False).size()
     data = pd.merge(data_sum, data_occurence, on=["longitude", "latitude", "location"])
     data["metric"] = data["fatalities"] + data["size"]
-
-    # color
-    cmap = plt.get_cmap("hot_r")
-    norm = colors.Normalize(vmin=data["metric"].min(), vmax=data["metric"].max())
-    scalarmappable = cmx.ScalarMappable(norm=norm, cmap=cmap)
     
     # Setting the viewport location
     initial_view_state = pdk.data_utils.compute_view(data[["longitude", "latitude"]])
     initial_view_state.zoom = 3
     initial_view_state.pitch = 50
     initial_view_state.bearing = 20
-    
-    GREEN_RGB = [0, 255, 0]
-    RED_RGB = [240, 100, 0]
     
     # Define the layer to display on a map
     hexagonlayer = pdk.Layer(
@@ -308,31 +294,6 @@ def timeseries(period):
     data["date"] = data["dayofyear"].apply(lambda x: dt.datetime(year, 1, 1) + dt.timedelta(days=x - 1))
     data["moving_average"] = data["size"].rolling(window=7).mean()
     data["moving_average_fatalities"] = data["fatalities"].rolling(window=7).mean()
-    
-    # def mean_value(col_event, col_fatalities, period):
-    #     return (
-    #         fig.add_hline(
-    #             y=data[col_fatalities].mean(),
-    #             line=dict(color="white", width=.4, dash="dash"),
-    #             annotation_position="top right",
-    #             annotation=dict(
-    #                 text=f"~ {int(data[col_fatalities].mean())} / {period}",
-    #                 font=dict(size=14, color="white")
-    #             )
-    #         ),
-
-    #         fig.add_hline(
-    #             y=data[col_event].mean(),
-    #             line=dict(color="white", width=.4, dash="dash"),
-    #             annotation_position="top right",
-    #             annotation=dict(
-    #                 text=f"~ {int(data[col_event].mean())} / {period}",
-    #                 font=dict(size=14, color="white")
-    #             )
-    #         )
-    #     )
-        
-        
 
     fig = go.Figure()
     

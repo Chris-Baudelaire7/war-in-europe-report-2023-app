@@ -21,12 +21,12 @@ update_layout_geo = {
     )
 }
 
-update_layout_simple = { 
-    "template":"plotly_dark",
-    "paper_bgcolor":"rgba(0,0,0,0)",
-    "plot_bgcolor":"rgba(0,0,0,0)",
-    "hovermode":"x",
-    "margin":dict(l=0, r=0, t=0, b=30),
+update_layout_simple = {
+    "template": "plotly_dark",
+    "paper_bgcolor": "rgba(0,0,0,0)",
+    "plot_bgcolor": "rgba(0,0,0,0)",
+    "hovermode": "x",
+    "margin": dict(l=0, r=0, t=0, b=30),
 }
 
 
@@ -82,25 +82,25 @@ def choropleth_europe(df, metric, zmin, zmax, colorscale):
     return fig
 
 
-# Trace 
+# Trace
 
 def timeseries_by_categories(title, category, metric, colors, col_order, graph):
     period = "month"
     dframe = df.groupby([period, category], as_index=False).size()
-    columns = list(dframe.groupby([category], as_index=False).size().sort_values(by=metric)[category].values)
+    columns = list(dframe.groupby([category], as_index=False).size(
+    ).sort_values(by=metric)[category].values)
 
     dframe = dframe.pivot_table(index="month", columns=category, values=metric)
-    dframe = (dframe[columns].fillna(0)).sort_values(by="month", key=lambda x: pd.to_datetime(x, format='%B'))
+    dframe = (dframe[columns].fillna(0)).sort_values(
+        by="month", key=lambda x: pd.to_datetime(x, format='%B'))
     dframe = dframe.iloc[:, col_order]
-    
+
     if graph == "line":
         fig = px.line(dframe, x=dframe.index, y=dframe.columns)
 
         for trace, color in zip(fig.data, colors):
-            trace.update(mode='lines+markers', line=dict(width=1.7, color=color))
-            
-        legend = dict(title=None, x=.6, y=.97)
-        
+            trace.update(mode='lines+markers',
+                         line=dict(width=1.7, color=color))
     else:
         fig = go.Figure()
         for col, color in zip(list(dframe.columns), colors):
@@ -110,7 +110,7 @@ def timeseries_by_categories(title, category, metric, colors, col_order, graph):
                     marker_color=color, name=col
                 )
             )
-        legend = dict(title=None, x=0, y=.97)
+    legend = dict(title=None, x=0, y=.97)
 
     fig.update_layout(
         height=400,
@@ -175,29 +175,30 @@ def pie_chart(data, labels, values, title):
 
 
 def conflict_by_month_utils(df, period, title, is_ue=False):
-    day_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    day_order = ["Monday", "Tuesday", "Wednesday",
+                 "Thursday", "Friday", "Saturday", "Sunday"]
 
     df_occurence = df.groupby([period], as_index=False).size()
     df_fatalities = df.groupby([period], as_index=False)["fatalities"].sum()
     data = pd.merge(df_occurence, df_fatalities, on=[period])
     if period == "month":
-        data = data.sort_values(by=period, key=lambda x: pd.to_datetime(x, format="%B")) 
+        data = data.sort_values(
+            by=period, key=lambda x: pd.to_datetime(x, format="%B"))
     elif period == "day_name":
-        data[period] = pd.Categorical(data[period], categories=day_order, ordered=True)
+        data[period] = pd.Categorical(
+            data[period], categories=day_order, ordered=True)
         data = data.sort_values(by=period)
 
     else:
         pass
 
     fig = px.bar(
-        data, x=period, y="size", color="size", color_continuous_scale="reds", 
+        data, x=period, y="size", color="size", color_continuous_scale="reds",
         text="size" if period != "day" else None
     )
     fig.update_coloraxes(showscale=False)
 
     fig.update_traces(textposition="outside", textfont=dict(size=10))
-    
-    
 
     fig.add_scatter(
         x=data[period], y=data["fatalities"],
@@ -216,8 +217,10 @@ def conflict_by_month_utils(df, period, title, is_ue=False):
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         margin=dict(t=50, b=30, r=0, l=0),
-        yaxis=dict(visible=False) if period != "day" else dict(showgrid=False, title=None),
-        yaxis2=dict(visible=False) if period != "day" else dict(showgrid=False, title=None),
+        yaxis=dict(visible=False) if period != "day" else dict(
+            showgrid=False, title=None),
+        yaxis2=dict(visible=False) if period != "day" else dict(
+            showgrid=False, title=None),
         xaxis=dict(nticks=30, title=None),
         font=dict(size=12, family="serif"),
         title={
@@ -237,8 +240,10 @@ def conflict_by_month_utils(df, period, title, is_ue=False):
 
 
 def ranking(df, area):
-    data = df.groupby([area], as_index=False).size().nlargest(columns="size", n=10)
-    fig = px.bar(data, x=area, y="size", color="size", color_continuous_scale="reds", text="size")
+    data = df.groupby([area], as_index=False).size().nlargest(
+        columns="size", n=10)
+    fig = px.bar(data, x=area, y="size", color="size",
+                 color_continuous_scale="reds", text="size")
     fig.update_coloraxes(showscale=False)
 
     fig.update_traces(textposition="outside", textfont=dict(size=10))

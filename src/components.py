@@ -1,49 +1,8 @@
-import dash_mantine_components as dmc
 from dash import html
-from dash_iconify import DashIconify
 import dash_daq as daq
 import dash_ag_grid as dag
 from dash import html
 from data_preparation import *
-
-
-affix = dmc.Affix(
-    DashIconify(icon="twemoji:world-map", width=40),
-    position={"top": 10, "right": 10},
-    style={"position": "relative"}
-)
-
-timeline = dmc.Timeline(
-    active=1,
-    bulletSize=10,
-    lineWidth=1,
-    color="red",
-    align="left",
-    className="mt-4 timeline",
-    children=[
-        dmc.TimelineItem(
-            title=html.P(id="date-events2"),
-            children=[
-                html.P(id="notes2"),
-            ],
-        ),
-        
-        dmc.TimelineItem(
-            title=html.P(id="date-events"),
-            children=[
-                html.P(id="notes"),
-            ],
-        ),
-        
-        dmc.TimelineItem(
-            title=html.P(id="date-events3"),
-            children=[
-                html.P(id="notes3"),
-            ],
-        ),
-        
-    ],
-)
 
 
 defaultColDef = {
@@ -117,6 +76,7 @@ theme = {
     'detail': 'lightgray',
 }
 
+
 def daq_comp(classname):
     return html.Div(className="div-daq", children=[
         daq.DarkThemeProvider(
@@ -136,6 +96,3 @@ def daq_comp(classname):
             ]
         )
     ])
-    
-    
-

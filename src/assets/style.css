@@ -51,10 +51,6 @@ nav {
     font-size: 11px !important;
 }
 
-.timeline {
-    height: 520px;
-    overflow-y: scroll;
-}
 
 .comments {
     font-size: 15px !important;
@@ -66,10 +62,6 @@ nav {
     font-family: Playfair Display, Merriweather, serif !important;
 }
 
-.mantine-Alert-root, .mantine-1maairl {
-    background-color: rgba(255, 39, 39, 0.196) !important;
-    color: white !important;
-}
 
 .separate {
   margin-top: 200px !important;
@@ -178,7 +170,18 @@ nav {
 /* End date picker ---------------------------------------------------------------------------------------- */
 
 
+/* Tab ---------------------------------------------------------------------------------------- */
 
+.tabular {
+  background-color: transparent !important;
+}
+
+.tabular > * > * {
+  background-color: transparent !important;
+  border-bottom: none !important;
+}
+
+/* End tab ---------------------------------------------------------------------------------------- */
 
 .ag-theme-alpine-dark, .ag-theme-alpine {
     --ag-background-color: #000000 !important;
@@ -189,41 +192,59 @@ nav {
 
 
 
-@media screen and (max-width: 1025) {
+
+
+@media screen and (max-width: 1024px) {
     .intro {
         position: absolute;
         z-index: 9000000;
-        top:60px;
+        top:80px;
         left: 0px !important;
         color: white;
         font-family: Playfair Display, Merriweather, serif !important;
         font-size: 11px;
         background-color: #00000079;
         padding: 8px;
-        width: 300px;
+        width: 280px;
         align-items: center;
     }
-}
-/* 
-@media screen and (max-width: 992) {
-    .intro {
-        position: relative !important;
-        top: 0;
-        left: 0;
-        color: white;
-        font-family: Playfair Display, Merriweather, serif !important;
-        font-size: 13px;
+
+    .div-daq {
+        position: relative;
+        top: 120px !important;
+        left: 180px !important;
+        z-index: 1000
     }
-} */
-
-
-.tabular {
-  background-color: transparent !important;
 }
 
-.tabular > * > * {
-  background-color: transparent !important;
-  border-bottom: none !important;
+
+@media screen and (max-width: 992px) {
+    .intro {
+        top: 210px;
+        left: 40px !important;
+        width: 280px;
+    }
+
+    .div-daq {
+        left: 350px !important;
+    }
 }
+
+
+@media screen and (max-width: 768px) {
+    .intro {
+        top: 220px;
+        left: 20px !important;
+        width: 250px;
+    }
+
+    .div-daq {
+        left: 230px !important;
+    }
+}
+
+
+
+
 
 
