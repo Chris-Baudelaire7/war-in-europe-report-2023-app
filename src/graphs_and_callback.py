@@ -1,18 +1,15 @@
 import datetime as dt
 import plotly.figure_factory as ff
 from plotly_calplot import calplot
-from dash import Input, Output, callback, html
+from dash import Input, Output, callback
 import plotly.express as px
 import plotly.graph_objects as go
 import pydeck as pdk
-import matplotlib.colors as colors
-import matplotlib.cm as cmx
-import matplotlib.pyplot as plt
 from data_preparation import *
 from utils import *
+from constants import *
 
-access_api_token = "pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg"
-satellite_style = "mapbox://styles/mapbox/satellite-streets-v11"
+
 
 # --------------------------------------------------- Pydeck ---------------------------------------------------------
 

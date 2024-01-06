@@ -7,16 +7,13 @@ from dash import html, dcc
 from components import *
 from data_preparation import *
 from graphs_and_callback import *
+from constants import *
 
-import dash
-
-access_api_token = "pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg"
 
 r, tooltip = total_events_Deck()
 
 layout = html.Div(className="layout mx-0 mx-md-3 mx-lg-5", children=[
 
-    # px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-auto
 
     html.Div(className="row intro mt-3 mt-lg-5 text-center", children=[
         dcc.Markdown(

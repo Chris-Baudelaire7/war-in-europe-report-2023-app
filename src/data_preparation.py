@@ -1,10 +1,10 @@
 import pandas as pd
-import numpy as np
+from constants import *
 
 
 def map_config(style):
     map_config = {
-        "api_keys": {'mapbox': "YOUR_MAPBOX_ACCESS_TOKEN"},
+        "api_keys": {'mapbox': access_api_token},
         "map_provider": 'mapbox',
         "map_style": style
     }
