@@ -13,9 +13,7 @@ This project focuses on the statistical analysis of armed conflicts that occurre
 3. Data Sources
 4. Installation
 5. Usage
-6. Analysis and Results
-7. Contributing
-8. License
+6. Contributing
 
 ## Introduction
 
@@ -30,7 +28,9 @@ The Armed Conflicts Location and Events Data Project is designed to explore and 
 
 ## Data Sources
 
-The project utilizes data from [source name or description], providing a comprehensive dataset on armed conflicts in Europe. The data is processed and analyzed to generate meaningful insights.
+The project utilizes data from [ACLED](https://acleddata.com/data-export-tool/), providing a comprehensive dataset on armed conflicts in the world. The data is processed and analyzed to generate meaningful insights.
+
+The Armed Conflict Location & Event Data Project (ACLED) is a disaggregated data collection, analysis, and crisis mapping project. ACLED collects information on the dates, actors, locations, fatalities, and types of all reported political violence and protest events around the world.
 
 ## Installation
 
@@ -54,12 +54,25 @@ To run this app you must either:
 
 After installation, access the project through your preferred web browser. Explore the interactive visualizations and gain insights into the armed conflicts in Europe during 2023
 
+
+## Contributing
+
+If you wish to contribute to this project, follow these steps:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature-name`
+3. Make your changes and commit: `git commit -m 'Add feature-name'`
+4. Push to the branch: `git push origin feature-name`
+5. Create a pull request.
+
+Or contact me directly by sending a message on [LinkedIn](https://www.linkedin.com/in/chris-baudelaire-k-8284731a1/)
+
 ## Deployment
 
 You can deploy this app if you want with:
 
-* Render.com
-* Heroku
+* [Render.com](https://render.com/)
+* [Heroku](https://www.heroku.com/)
 
 These are the most easy way to deploy a dash app
 You can see the video of Adam Shroeder to learn how to deploy a dash app
