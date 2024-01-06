@@ -76,6 +76,9 @@ nav {
     left: 300px;
     z-index: 1000
 }
+.europe {
+    font-size: 17px !important;
+}
 
 
 /* dash daq -------------------------------------------------------------------------------------*/
@@ -215,17 +218,9 @@ nav {
 
 @media screen and (max-width: 1024px) {
     .intro {
-        position: absolute;
-        z-index: 9000000;
         top:80px;
         left: 0px !important;
-        color: white;
-        font-family: Playfair Display, Merriweather, serif !important;
-        font-size: 11px;
-        background-color: #00000079;
-        padding: 8px;
         width: 280px;
-        align-items: center;
     }
 
     .div-daq {
@@ -252,18 +247,15 @@ nav {
 
 @media screen and (max-width: 768px) {
     .intro {
-        top: 220px;
-        left: 20px !important;
-        width: 250px;
+        position: relative !important;
+        top:0;
+        left: 0 !important;
+        width: 100%;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     .div-daq {
         left: 230px !important;
     }
 }
-
-
-
-
-
-

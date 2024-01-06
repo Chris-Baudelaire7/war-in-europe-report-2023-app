@@ -9,7 +9,7 @@ navbar = html.Div(className="header container-fluid p-2 mb-4", children=[
         html.Div(className="d-flex flex-column flex-lg-row align-items-center", children=[
             html.Div(className="d-flex flex-column flex-md-row align-items-center justify-content-center", children=[
 
-                html.Div(className="text-center d-inline-block", children=[
+                html.Div(className="text-center d-inline-block mb-2 mb-xl", children=[
                     dbc.NavbarBrand(className="title", href="/", children=[
                        html.H4(className="d-flex align-items-center title", children=[
                             dmc.Tooltip(
@@ -37,8 +37,10 @@ navbar = html.Div(className="header container-fluid p-2 mb-4", children=[
             ]),
 
             html.Div(className="ms ms-lg-5 d-xl d-xl-block", children=[
-                html.H5("Armed Conflicts Location And Events Data Report: Europe - 2023",
-                        className="title-header"),
+                html.H5(
+                    "Armed Conflicts Location And Events Data Report: Europe - 2023",
+                    className="title-header text-lg-center text-xl"
+                ),
                 html.H6("Statistical Analysis Report And Data Visualization",
                         className="subtitle-header text-muted text-center text-md-start")
             ]),
@@ -48,7 +50,7 @@ navbar = html.Div(className="header container-fluid p-2 mb-4", children=[
             dbc.Nav(className="ms-auto d-flex flex-row align-items-center justify-content-center", navbar=True, children=[
 
                 dmc.Tooltip(
-                    label="Source Code Unavailable",
+                    label="Data and Source Code",
                     position="bottom",
                     withArrow=True,
                     arrowSize=6,

@@ -15,35 +15,9 @@ access_api_token = "pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmM
 
 r, tooltip = total_events_Deck()
 
-layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-auto", children=[
+layout = html.Div(className="layout mx-0 mx-md-3 mx-lg-5", children=[
 
-    html.Div(className="row", children=[
-        html.Div(className="col-lg-8", children=[
-            html.Div(className="", children=[
-                ddk.DeckGL(r.to_json(), id="deck-gl",
-                           tooltip=tooltip, mapboxKey=access_api_token),
-            ])
-        ]),
-
-        html.Div(className="col-lg-4 mt-3 mt-xl-0", children=[
-
-            html.Div(className="row", children=[
-                html.Div(className="col-md-6 col-lg-12", children=[
-                    daq_comp("daq-slider-events"),
-                    dcc.Graph(config=dict(displayModeBar=False),
-                              id="distribution_events"),
-                ]),
-
-                html.Div(className="col-md-6 col-lg-12 mt-3 mt-md-0 mt-xl-3", children=[
-                    daq_comp("daq-slider-fatalities"),
-                    dcc.Graph(config=dict(displayModeBar=False),
-                              id="distribution_fatalities"),
-                ]),
-            ])
-
-        ]),
-    ]),
-
+    # px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-auto
 
     html.Div(className="row intro mt-3 mt-lg-5 text-center", children=[
         dcc.Markdown(
@@ -75,6 +49,33 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
             html.Span(f"59%", className="text-primary fs-3"),
             html.Span(" of the wars in Ukraine")
         ])
+    ]),
+
+    html.Div(className="row", children=[
+        html.Div(className="col-lg-8", children=[
+            html.Div(className="", children=[
+                ddk.DeckGL(r.to_json(), id="deck-gl",
+                           mapboxKey=access_api_token),
+            ])
+        ]),
+
+        html.Div(className="col-lg-4 mt-3 mt-xl-0", children=[
+
+            html.Div(className="row", children=[
+                html.Div(className="col-md-6 col-lg-12", children=[
+                    daq_comp("daq-slider-events"),
+                    dcc.Graph(config=dict(displayModeBar=False),
+                              id="distribution_events"),
+                ]),
+
+                html.Div(className="col-md-6 col-lg-12 mt-3 mt-md-0 mt-xl-3", children=[
+                    daq_comp("daq-slider-fatalities"),
+                    dcc.Graph(config=dict(displayModeBar=False),
+                              id="distribution_fatalities"),
+                ]),
+            ])
+
+        ]),
     ]),
 
 
@@ -173,7 +174,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                       figure=distribution_conflict_ue()),
         ]),
 
-        html.Div(className="col-12 col-md-8 col-lg-6", children=[
+        html.Div(className="col-12 mt-4 mt-md col-md-8 col-lg-6", children=[
             dcc.Loading(
                 dcc.Graph(config=dict(displayModeBar=False), id="uk_vs_ue"),
                 type="circle", color="firebrick"
@@ -257,7 +258,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
             dcc.Graph(config=dict(displayModeBar=False), figure=mapbox_ue()),
         ]),
 
-        html.Div(className="col-md-6 col-xl-5", children=[
+        html.Div(className="col-md-6 col-xl-5 mt-4 mt-md", children=[
             dcc.Graph(config=dict(displayModeBar=False),
                       figure=mapbox_ukraine()),
         ]),
@@ -576,7 +577,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                       config=dict(displayModeBar=False)),
         ]),
 
-        html.Div(className="col-2 col-md-4 col-xl-4", children=[
+        html.Div(className="col-12 col-md-4 col-xl-4 mt-3 mt-md", children=[
             dcc.Graph(config=dict(displayModeBar=False),
                       id="distribution-event-type"),
         ]),
@@ -636,10 +637,11 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
             ),
         ]),
 
-        html.Div(className="col-md-6 justify-content-center", children=[
+        html.Div(className="col-md-6 justify-content-center mt-4 mt-md", children=[
 
-            html.Div(className="md-inline text-center", children=[
-                html.Span("Europe on", className="text-center d-block"),
+            html.Div(className="md-inline text-start text-md-center mb-3", children=[
+                html.Span(
+                    "Europe on", className="text-start text-md-center d-block europe"),
                 dcc.DatePickerSingle(
                     id='select-date',
                     min_date_allowed=df["event_date"].min(),
