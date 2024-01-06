@@ -1,7 +1,6 @@
 from flask import Flask
 from dash import Dash, html
 import dash_bootstrap_components as dbc
-import dash_mantine_components as dmc
 from layout import layout
 from navbar import navbar
 
@@ -30,4 +29,6 @@ app.layout = html.Div(className="app", children=[
     navbar, layout
 ])
 
-app.run_server(**server_params, host='0.0.0.0')
+
+if __name__ == '__main__':
+    app.run_server(**server_params, host='0.0.0.0')

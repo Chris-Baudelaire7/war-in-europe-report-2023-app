@@ -10,33 +10,15 @@ navbar = html.Div(className="header container-fluid p-2 mb-4", children=[
             html.Div(className="d-flex flex-column flex-md-row align-items-center justify-content-center", children=[
 
                 html.Div(className="text-center d-inline-block mb-2 mb-xl", children=[
-                    dbc.NavbarBrand(className="title", href="/", children=[
-                       html.H4(className="d-flex align-items-center title", children=[
-                            dmc.Tooltip(
-                                label="By Chris Baudelaire .K",
-                                position="bottom",
-                                withArrow=True,
-                                arrowSize=6,
-                                color="black",
-                                transition="scale-x",
-                                transitionDuration=300,
-                                ff="serif",
-                                className="m3",
-                                children=[
-                                    html.Span(
-                                        "Analytics", className="text-white"),
-                                    html.Span(
-                                        "Paper", className="text-red", style={'color': 'red'})
-                                ]
-                            ),
-
-                       ])
+                    html.H2(className="d-flex align-items-center title", children=[
+                       html.Span("Analytics", className="text-white"),
+                       html.Span("Paper", className="text-red",
+                                 style={'color': 'red'})
                     ]),
-                    # html.Small("Mathématiques-Modèle-MachineLearning", className="text m3 d-inline-block")
                 ])
             ]),
 
-            html.Div(className="ms ms-lg-5 d-xl d-xl-block", children=[
+            html.Div(className="ms ms-lg-4 d-xl d-xl-block", children=[
                 html.H5(
                     "Armed Conflicts Location And Events Data Report: Europe - 2023",
                     className="title-header text-lg-center text-xl"

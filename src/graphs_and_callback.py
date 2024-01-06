@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 from data_preparation import *
 from utils import *
 
+access_api_token = "pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg"
+satellite_style = "mapbox://styles/mapbox/satellite-streets-v11"
 
 # --------------------------------------------------- Pydeck ---------------------------------------------------------
 
@@ -70,7 +72,7 @@ def total_events_Deck():
         layers=[hexagonlayer, heatmapLayer],
         tooltip=tooltip,
         initial_view_state=initial_view_state,
-        **map_config("mapbox://styles/mapbox/satellite-streets-v11")
+        **map_config(satellite_style)
     )
 
     return maps, tooltip
@@ -198,8 +200,9 @@ def mapbox(event_type):
         mapbox=dict(
             center={"lat": initial_view_state.latitude,
                     "lon": initial_view_state.longitude},
-            accesstoken="YOUR_MAPBOX_ACCESS_TOKEN",
-            style="mapbox://styles/mapbox/satellite-streets-v11",
+            accesstoken=access_api_token,
+            # mapbox://styles/mapbox/satellite-streets-v11
+            style=satellite_style,
             zoom=zoom,
             pitch=pitch
         ),
@@ -229,8 +232,8 @@ def mapbox_ue():
         mapbox=dict(
             center={"lat": initial_view_state.latitude,
                     "lon": initial_view_state.longitude},
-            accesstoken="YOUR_MAPBOX_ACCESS_TOKEN",
-            style="mapbox://styles/mapbox/satellite-streets-v11",
+            accesstoken=access_api_token,
+            style=satellite_style,
             zoom=2.5,
             pitch=40
         ),
@@ -261,8 +264,8 @@ def mapbox_ukraine():
         mapbox=dict(
             center={"lat": initial_view_state.latitude,
                     "lon": initial_view_state.longitude},
-            accesstoken="YOUR_MAPBOX_ACCESS_TOKEN",
-            style="mapbox://styles/mapbox/satellite-streets-v11",
+            accesstoken=access_api_token,
+            style=satellite_style,
             zoom=4.6,
             pitch=40
         ),
@@ -296,8 +299,8 @@ def mapbox_calendar(date):
         mapbox=dict(
             center={"lat": initial_view_state.latitude,
                     "lon": initial_view_state.longitude},
-            accesstoken="YOUR_MAPBOX_ACCESS_TOKEN",
-            style="mapbox://styles/mapbox/satellite-streets-v11",
+            accesstoken=access_api_token,
+            style=satellite_style,
             zoom=2.8,
             pitch=40
         ),
