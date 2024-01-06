@@ -14,6 +14,8 @@ This project focuses on the statistical analysis of armed conflicts that occurre
 4. Installation
 5. Usage
 6. Contributing
+7. Deployment
+8. Go live
 
 ## Introduction
 
@@ -54,7 +56,6 @@ To run this app you must either:
 
 After installation, access the project through your preferred web browser. Explore the interactive visualizations and gain insights into the armed conflicts in Europe during 2023
 
-
 ## Contributing
 
 If you wish to contribute to this project, follow these steps:
@@ -76,3 +77,8 @@ You can deploy this app if you want with:
 
 These are the most easy way to deploy a dash app
 You can see the video of Adam Shroeder to learn how to deploy a dash app
+
+
+## Go Live
+
+Check it out [here](https://armed-conflicts-location-and-events-6g5g.onrender.com)
