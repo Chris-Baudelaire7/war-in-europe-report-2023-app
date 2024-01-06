@@ -8,6 +8,8 @@ from components import *
 from data_preparation import *
 from graphs_and_callback import *
 
+import dash
+
 
 access_api_token = "pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg"
 
@@ -70,7 +72,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
             html.Br(),
 
-            html.Span(f"89%", className="text-primary fs-3"),
+            html.Span(f"59%", className="text-primary fs-3"),
             html.Span(" of the wars in Ukraine")
         ])
     ]),
@@ -85,7 +87,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
     html.Div(className="row align-items-center mt-3", children=[
 
-        html.Div(className="col-12 col-md-7 col-lg-6 order-first", children=[
+        html.Div(className="col-12 col-md-8 col-lg-6 order-first", children=[
             dcc.Loading(
                 dcc.Graph(config=dict(displayModeBar=False), id="timeseries"),
                 type="circle", color="firebrick"
@@ -102,14 +104,14 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
             ])
         ]),
 
-        html.Div(className="col-12 col-lg-2 order-md-3 order-lg-2", children=[
+        html.Div(className="col-12 col-lg-2 order-md-3 order-lg-2 mt-3 mt-lg", children=[
             html.Div(className="row", children=[
                 html.Div(className="col-12", children=[
                     dcc.Markdown(
                         """
-                        ###### Dans l'ensemble, le nombre d'attaques terroristes dans
+                        ###### More conflicts in the first quarter of the year
                         
-                        monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs.
+                        The first quarter of the year was the most eventful, recording over **23,147** conflicts in Europe. In contrast, we observe a decline in wars in the months of April, July, and August.
                         """,
 
                         className="small_comments",
@@ -119,9 +121,9 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                 html.Div(className="col-12", children=[
                     dcc.Markdown(
                         """
-                        ###### Dans l'ensemble, le nombre d'attaques terroristes dans
+                        ###### *Ukraine* and *Greece* make the difference
                         
-                        monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée"
+                        **Greece** and **Ukraine** are the two countries with the highest number of casualties recorded this year. **145** casualties for Greece compared to **29,350** for Ukraine.
                         """,
 
                         className="small_comments",
@@ -130,25 +132,26 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
             ])
         ]),
 
-        html.Div(className="col-12 col-md-5 col-lg-4 order-md-2 order-lg-3", children=[
+        html.Div(className="col-12 col-md-4 col-lg-4 order-md-2 order-lg-3", children=[
+
+            dcc.Graph(config=dict(displayModeBar=False), id="rate_deaths"),
 
             html.Div(className="selection d-flex justify-content-center", children=[
-                dmc.ChipGroup(value="all", id="area", children=[
+                dmc.ChipGroup(value="ue", id="area", children=[
                     dmc.Chip(x, value=y, size="sm", color="red")
                     for x, y in zip(
-                        ["All countries", "excluding Ukraine and Russia"],
+                        ["All countries", "No Ukraine and Russia"],
                         ["all", "ue"]
                     )
                 ])
             ]),
 
-            dcc.Graph(config=dict(displayModeBar=False), id="rate_deaths"),
         ]),
 
-        html.Div(className="col-12 order-last", children=[
+        html.Div(className="col-12 order-last mt-3", children=[
             dcc.Markdown(
                 """
-                The vast majority of deaths resulting from armed conflicts in Europe are concentrated in Ukraine, with the country contributing to nearly 99% of the total death rate. In contrast, the combined contribution of the other 30 countries is relatively low, making up only about 1.39% of the overall death toll
+                The vast majority of deaths resulting from armed conflicts in Europe are concentrated in **Ukraine**, with the country contributing to nearly **99%** of the total death rate. In contrast, the combined contribution of the other **46 countries** is relatively low, making up only about **1.39%** of the overall death toll
                 """,
 
                 className="comments",
@@ -166,12 +169,11 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
     html.Div(className="row justify-content-center align-items-center mt-4", children=[
 
         html.Div(className="col-12 col-lg-4 col-md-4", children=[
-            daq_comp("daq-slider-uk_ue"),
             dcc.Graph(config=dict(displayModeBar=False),
                       figure=distribution_conflict_ue()),
         ]),
 
-        html.Div(className="col-12 col-md-6 col-lg-6", children=[
+        html.Div(className="col-12 col-md-8 col-lg-6", children=[
             dcc.Loading(
                 dcc.Graph(config=dict(displayModeBar=False), id="uk_vs_ue"),
                 type="circle", color="firebrick"
@@ -190,9 +192,9 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
         html.Div(className="col-12 col-xl-2 mt-3 mt-xl-0", children=[
             dcc.Markdown(
                 """
-                ###### relatively low, making up only
+                ###### Ukraine overwhelmingly dominates the rankings
                 
-                The vast majority of deaths resulting from armed conflicts in Europe are concentrated in Ukraine, with the country  is relatively low, making up only about 1.39% of the overall death toll.
+                The number of conflicts in Ukraine remains high and consistent throughout the year, surpassing the rest of Europe for almost the entire year. In contrast, we observe significant variations in the rest of Europe.
                 """,
 
                 className="small_comments",
@@ -203,7 +205,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
         html.Div(className="col-12 mt-3", children=[
             dcc.Markdown(
                 """
-                The vast majority of deaths resulting from armed conflicts in Europe are concentrated in Ukraine, with the country contributing to nearly 99% of the total death rate. In contrast, the combined contribution of the other 30 countries is relatively low, making up only about 1.39% of the overall death tollThe vast majority of deaths resulting from armed conflicts in Europe are concentrated in Ukraine, with the country contributing to nearly 99% of the total death rate. In contrast, the combined contribution of the other 30 countries is relatively low, making up only about 1.39% of the overall death toll.
+                This can be naturally explained by **Russia's** invasion of **Ukraine** since **February 24, 2022**, which has led to a bloody war. This ongoing conflict is very intense and continues to claim victims.
                 """,
 
                 className="comments",
@@ -228,9 +230,9 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                 html.Div(className="col-6 col-xl-12", children=[
                     dcc.Markdown(
                         """
-                        ###### Dans l'ensemble, le nombre d'attaques terroristes dans
+                        ###### France overwhelmingly dominates the rankings in Europe
                         
-                        monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs.
+                        In Europe (excluding Ukraine and Russia), France alone has recorded more than **8336** armed conflicts, accounting for approximately 28% of the total conflicts.
                         """,
 
                         className="small_comments",
@@ -240,9 +242,9 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                 html.Div(className="col-6 col-xl-12", children=[
                     dcc.Markdown(
                         """
-                        ###### Dans l'ensemble, le nombre d'attaques terroristes dans
+                        ###### The War: More Intense at the Ukraine Border
                         
-                        monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée"
+                        Occupation (Invasion) and War Zone between Russia and Ukraine"
                         """,
 
                         className="small_comments",
@@ -262,27 +264,14 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
     ]),
 
 
-    # ----------------------------------------------------------------------------------------------------------------------
-
-
-    html.Div(className="mt-5", children=[
-        dcc.Markdown(
-            """ 
-                It is evident that Russia and Ukraine dominate the rankings when it comes to armed conflicts in Europe. To gain a better understanding of the situation, we turn our attention to other countries. This year, France and Germany are the most affected nations, with over 7,654 conflicts in France, accounting for 5% of armed conflicts in Europe (excluding Russia and Ukraine), even surpassing the number of conflicts in Russia, which stands at 765. Germany has the highest number of casualties, totaling 567,888 armed conflicts, of which only 765 occur in the month of March.
-            """,
-            className="comments",
-        ),
-
-    ]),
-
     # ---------------------------------------------------------------------------------------------------------------------
 
 
-    html.Div(className="row", children=[
+    html.Div(className="row mt-3", children=[
 
         dcc.Markdown(
             """                
-                *We adopted this approach to prevent bias in the analysis due to the high number of conflicts and deaths in Ukraine. Additionally, Russia's extensive geographical span, bordering both Europe and Asia, is often excluded when considering European countries.*
+                *Note: We have separated Ukraine from Europe and excluded Russia for a better understanding of the situation. We adopted this approach to prevent bias in the analysis due to the high number of conflicts and deaths in Ukraine. Additionally, Russia's extensive geographical span, bordering both Europe and Asia, is often excluded when considering European countries.*
             """,
             className="comments",
         )
@@ -299,7 +288,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
         html.Div(className="col", children=[
             dbc.Tabs(class_name="tabular", children=[
                 dbc.Tab(
-                    label="Repartition en pourcentage",
+                    label="All European countries",
                     tab_style=tab_style,
                     active_tab_style=active_tab_style,
                     children=[
@@ -309,9 +298,10 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                             html.Div(className="col-12 col-md-6 col-lg-6 col-xl-2 order-1", children=[
                                 dcc.Markdown(
                                     """
-                                    ###### Dans l'ensemble, le nombre d'attaques terroristes dans
+                                    ###### High level trend per day by month
                                     
-                                    monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée de groupesterroristes, laj facilité accrue de communication et de recrutement grâce à Internet, ainsi que les conflits égionaux et des cellules terroristes dans de nombreux pays.""",
+                                    Wednesday and Thursday have the highest number of conflicts per day by month in all of Europe, with 1767 and 1775 conflicts respectively
+                                    .""",
 
                                     className="small_comments",
                                 ),
@@ -325,9 +315,10 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                             html.Div(className="col-12 col-md-6 col-lg-6 col-xl-2 order-3 order-md-2 order-xl-3 mt-4 mt-md-0", children=[
                                 dcc.Markdown(
                                     """
-                                    ###### Dans l'ensemble, le nombre d'attaques terroristes dans
+                                    ###### High level trend in event and fatalities by month and day
                                     
-                                    monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée de groupesterroristes, laj facilité accrue de communication et de recrutement grâce à Internet, ainsi que les conflits égionaux et des cellules terroristes dans de nombreux pays.""",
+                                    In March and May, there are respectively the highest number of armed conflicts and fatalities in the year, while Saturday and Wednesday are respectively the highest number of armed conflicts and fatalities in the week
+                                    """,
 
                                     className="small_comments",
                                 ),
@@ -376,7 +367,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                 ),
 
                 dbc.Tab(
-                    label="Evolution temporelle absolue/relative",
+                    label="Europe without Ukraine and Russia",
                     active_tab_style=active_tab_style,
                     class_name="bg-danger",
                     children=[
@@ -386,9 +377,10 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                             html.Div(className="col-12 col-md-6 col-lg-6 col-xl-2 order-1", children=[
                                 dcc.Markdown(
                                     """
-                                    ###### Dans l'ensemble, le nombre d'attaques terroristes dans
+                                    ###### High level trend per day by month
                                     
-                                    monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée de groupesterroristes, laj facilité accrue de communication et de recrutement grâce à Internet, ainsi que les conflits égionaux et des cellules terroristes dans de nombreux pays.""",
+                                    Wednesday and Thursday have the highest number of conflicts per day by month in all of Europe, with 894 and 933 conflicts respectively.
+                                    """,
 
                                     className="small_comments",
                                 ),
@@ -402,9 +394,10 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                             html.Div(className="col-12 col-md-6 col-lg-6 col-xl-2 order-3 order-md-2 order-xl-3 mt-4 mt-md-0", children=[
                                 dcc.Markdown(
                                     """
-                                    ###### Dans l'ensemble, le nombre d'attaques terroristes dans
+                                    ###### High level trend in event and fatalities by month and day
                                     
-                                    monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée de groupesterroristes, laj facilité accrue de communication et de recrutement grâce à Internet, ainsi que les conflits égionaux et des cellules terroristes dans de nombreux pays.""",
+                                    In March and May, there are respectively the highest number of armed conflicts and fatalities in the year, while Saturday and Wednesday are respectively the highest number of armed conflicts and fatalities in the week.
+                                    """,
 
                                     className="small_comments",
                                 ),
@@ -466,16 +459,13 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
     # -------------------------------------------   DISORDER TYPE   ----------------------------------------------------------------
 
-    html.H3("More than half of conflicts are politically motivated",
-            className="mt-5 mb-3"),
-    html.Div(className="", children=[
-        dcc.Markdown(
-            """
-                Dans l'ensemble, le nombre d'attaques terroristes dans le 
-                monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée de groupesterroristes, laj facilité accrue de communication et de recrutement grâce à Internet, ainsi que les conflits égionaux et des cellules terroristes dans de nombreux pays.""",
+    html.H3("Armed Conflits in Europe: By Disorder Type", className="mt-5 mb-3"),
 
-            className="comments",
-        ),
+    html.Div(className="", children=[
+        dmc.Blockquote(
+            "After months of military buildup along the Ukrainian border, Russian forces launched a large-scale invasion of Ukraine on February 24, 2022. The escalation of the ensuing armed conflict led to the highest level of political violence recorded in a European country. The surge in violence in Ukraine was accompanied by a staggering human cost, with Ukraine also ranking as the country with the highest number of reported fatalities",
+            cite="- Source: Acled", color="white"
+        )
     ]),
 
     html.Div(className="row align-items-center mt-3", children=[
@@ -487,12 +477,10 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
         html.Div(className="col-12 col-xl-2 order-last order-xl-2", children=[
             html.Div(className="row", children=[
-                html.Div(className="col-6 col-xl-12", children=[
+                html.Div(className="col-6 col-xl-12 mt-3 mt-xl", children=[
                     dcc.Markdown(
                         """
-                        ###### Dans l'ensemble, le nombre d'attaques terroristes dans
-                        
-                        monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs.
+                        ###### - More than half of conflicts are politically motivated
                         """,
 
                         className="small_comments",
@@ -502,9 +490,10 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                 html.Div(className="col-6 col-xl-12", children=[
                     dcc.Markdown(
                         """
-                        ###### Dans l'ensemble, le nombre d'attaques terroristes dans
+                        ###### - Dans l'ensemble, le nombre d'attaques terroristes dans
                         
-                        monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée"
+                        Demonstration wars have surpassed political violence in the month of March, considered the most tumultuous month of the year with over 54,677 conflicts, as seen previously.
+                        Political violence reached its peak in the month of June, rising to 6,765 conflicts this month"
                         """,
 
                         className="small_comments",
@@ -530,16 +519,14 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
     # ---------------------------------------------  EVENT TYPE  -----------------------------------------------------------------
 
 
-    html.H3("Armed Conflits in Europe: By Events Type", className="mt"),
+    html.H3("Armed Conflits in Europe: By Events Type", className="mt-5"),
 
     html.Div(className="row align-items-center", children=[
 
         html.Div(className="col-12 col-xl-2 order-last order-xl-first", children=[
             dcc.Markdown(
                 """
-                ###### Dans l'ensemble, le nombre d'attaques terroristes dans le 
-                
-                monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée.""",
+                Prominent during armed conflicts in Europe are events categorized as Explosions/Remote violence and Protests, showcasing their high frequency.""",
 
                 className="small_comments",
             ),
@@ -572,7 +559,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
         html.H5("From a geospatial perspective", className="mb-4"),
 
         html.Div(className="col-12 col-xl-3 text-center text-xl", children=[
-            html.Small("Analysis by event type"),
+            html.Small("Event Type"),
             html.Div(className="mb-3", children=[
                 dcc.Dropdown(
                     id="select-event",
@@ -581,16 +568,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                     value="Protests",
                     placeholder="Choose an event type",
                 )
-            ]),
-
-            dcc.Markdown(
-                """
-                ###### Dans l'ensemble, le nombre d'attaques terroristes dans le 
-                
-                monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée de groupesterroristes, laj facilité accrue de communication et de recrutement grâce à Internet, ainsi que les conflits égionaux et des cellules terroristes dans de nombreux pays.""",
-
-                className="small_comments",
-            ),
+            ])
         ]),
 
         html.Div(className="col-12 col-md-8 col-xl-5", children=[
@@ -599,7 +577,6 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
         ]),
 
         html.Div(className="col-2 col-md-4 col-xl-4", children=[
-            daq_comp("daq-slider-event-type"),
             dcc.Graph(config=dict(displayModeBar=False),
                       id="distribution-event-type"),
         ]),
@@ -617,13 +594,13 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
             html.Div(className="row align-items-center", children=[
 
                 html.Div(className="col-md-12", children=[
-                    dcc.Graph(config=dict(
-                        displayModeBar=False), figure=ranking_city_ue()),
+                    dcc.Graph(config=dict(displayModeBar=False),
+                              id="ranking-bar-country"),
                 ]),
 
                 html.Div(className="col-md-12", children=[
-                    dcc.Graph(config=dict(
-                        displayModeBar=False), figure=ranking_country_ue()),
+                    dcc.Graph(config=dict(displayModeBar=False),
+                              id="ranking-bar-city"),
                 ])
 
             ])
@@ -636,7 +613,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
     html.H3("The Calendar of Armed Conflicts in Europe", className="my-5 pt-3"),
 
-    html.Div(className="row align-items-center mt-3", children=[
+    html.Div(className="row align-items-center mt-3 mb-5", children=[
         html.Div(className="col-md-6", children=[
 
             html.Div(className="mt-3", children=[
@@ -653,7 +630,7 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                 """
                 ###### Conflicts and fatalities every day 
                 
-                monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée de groupesterroristes, laj facilité accrue de communication et de recrutement grâce à Internet, ainsi que les conflits égionaux et des cellules terroristes dans de nombreux pays.""",
+                """,
 
                 className="small_comments",
             ),
@@ -675,13 +652,6 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
                 DashIconify(icon="game-icons:click", width=20),
             ]),
 
-            dcc.Markdown(
-                """
-                monde a augmenté de manière significative au fildes décennies. Cette augmentation peut être attribuée à plusieurs facteurs, notamment la montée de groupesterroristes, laj facilité dans de nombreux pays.""",
-
-                className="small_comments text-center",
-            ),
-
             dcc.Graph(config=dict(displayModeBar=False), id="map-calendar"),
         ]),
 
@@ -691,7 +661,8 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
     # ----------------------------------------------------------------------------------------------------------------
 
-    html.Hr(className="my-5 pt-5"),
+    html.Hr(className="my-5"),
+
     html.H3("Summary of Key Figures", className="pt-3"),
 
     html.Div(className="row align-items-center mt-3", children=[
@@ -716,16 +687,6 @@ layout = html.Div(className="layout px-0 px-lg-3 px-xl-5 pb-5 mx-0 mx-xl-3 mx-au
 
         html.Span("By Chris Baudelaire .K",
                   className="text-white fw-bold mb-3"),
-
-        # html.Div(className="div-img", children=[
-        #     html.Img(
-        #         src=dash.get_asset_url('profile_picture.png'),
-        #         className="div-img img-responsive rounded-square mb-4",
-        #         style={"height": "160px", "width": "180px"}
-        #     ),
-        # ]),
-
-        html.Span("Powered by Plotly/Dash", className=""),
 
     ]),
 ])

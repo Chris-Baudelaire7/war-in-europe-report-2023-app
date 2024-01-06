@@ -58,7 +58,7 @@ nav {
 }
 
 .small_comments {
-    font-size: 12px !important;
+    font-size: 14px !important;
     font-family: Playfair Display, Merriweather, serif !important;
 }
 
@@ -183,12 +183,31 @@ nav {
 
 /* End tab ---------------------------------------------------------------------------------------- */
 
+
+
 .ag-theme-alpine-dark, .ag-theme-alpine {
     --ag-background-color: #000000 !important;
     --ag-odd-row-background-color: #0f0f0f;
     --ag-header-background-color: rgb(0, 0, 0);
     --ag-header-cell-hover-background-color: firebrick
 }
+
+
+
+
+/* Citation ---------------------------------------------------------------------------------------- */
+
+
+.mantine-Alert-root, .mantine-1maairl {
+    background-color: rgba(255, 0, 0, 0.127) !important;
+}
+
+.mantine-1nksqbd, .mantine-Blockquote-body {
+    color: rgb(209, 209, 209) !important;
+    font-family: serif !important;
+}
+
+/* End Citation ---------------------------------------------------------------------------------------- */
 
 
 

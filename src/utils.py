@@ -21,12 +21,20 @@ update_layout_geo = {
     )
 }
 
+update_layout_t50_b30 = {
+    "template": "plotly_dark",
+    "paper_bgcolor": "rgba(0,0,0,0)",
+    "plot_bgcolor": "rgba(0,0,0,0)",
+    "hovermode": "x",
+    "margin": dict(l=0, r=0, t=50, b=30),
+}
+
 update_layout_simple = {
     "template": "plotly_dark",
     "paper_bgcolor": "rgba(0,0,0,0)",
     "plot_bgcolor": "rgba(0,0,0,0)",
     "hovermode": "x",
-    "margin": dict(l=0, r=0, t=0, b=30),
+    "margin": dict(l=0, r=0, t=0, b=0),
 }
 
 
@@ -68,7 +76,7 @@ def choropleth_europe(df, metric, zmin, zmax, colorscale):
         margin=dict(autoexpand=True, l=0, r=0, t=0, b=0),
         title={
             "text": (
-                f"<b>Top Country most affected<br>by onflict this year</b><br />"
+                f"<b>Armed Conficts in Europe<br>by country</b><br />"
                 f"<sup style='color:silver'>as of December 8, 2023"
             ),
             "font": {"family": "serif", "size": 30, "color": "white"},
@@ -152,20 +160,20 @@ def pie_chart(data, labels, values, title):
     ))
 
     fig.update_layout(
-        height=450,
+        height=400,
         template="plotly_dark",
         showlegend=False,
-        margin=dict(autoexpand=True, l=0, r=0, t=100),
+        margin=dict(autoexpand=True, l=0, r=0, t=0, b=0),
         plot_bgcolor="rgba(0, 0, 0, 0)",
         paper_bgcolor="rgba(0, 0, 0, 0)",
         title={
             "text": (
                 f"<b>{title}</b><br />"
-                f"<sup style='color:silver'>All natural disasters occurred: 1970 - 2023"
+                f"<sup style='color:silver'>"
             ),
             "font": {"family": "serif", "size": 20, "color": "white"},
             "x": 0.98,
-            "y": 0.93,
+            "y": 0.88,
             "xanchor": "right",
             "yanchor": "top",
         },
@@ -250,7 +258,7 @@ def ranking(df, area):
 
     fig.update_layout(
         template="plotly_dark",
-        height=280,
+        height=265,
         hovermode="x",
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
@@ -260,12 +268,11 @@ def ranking(df, area):
         font=dict(size=12, family="serif"),
         title={
             "text": (
-                f"<b>Top 10 most countries affected</b><br />"
-                f"<sup style='color:silver'>War in 2023 to 8, November</sup>"
+                f"<b>Top 10 most {area} affected</b><br />"
             ),
             "font": {"family": "serif", "size": 14, "color": "white"},
             "x": 0.98,
-            "y": 0.8,
+            "y": 0.9,
             "xanchor": "right",
             "yanchor": "top",
         }
@@ -321,8 +328,7 @@ def heatmap_month(df):
         font=dict(family="serif", color="white", size=10),
         title={
             "text": (
-                f"<b>Average Armed Conflicts Per Day in Europe</b><br />"
-                f"<sup style='color:silver'>All natural disasters occurred: 1970 - 2023"
+                f"<b>Armed Conflicts Per Day<br>By Month in Europe</b><br />"
             ),
             "font": {"family": "serif", "size": 20, "color": "white"},
             "x": 0.98,

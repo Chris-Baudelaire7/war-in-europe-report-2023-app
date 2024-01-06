@@ -1,3 +1,4 @@
+import dash
 from dash import html
 import dash_daq as daq
 import dash_ag_grid as dag
@@ -96,3 +97,11 @@ def daq_comp(classname):
             ]
         )
     ])
+
+
+def my_img():
+    return html.Img(
+        src=dash.get_asset_url("profile_picture.png"),
+        className="div-img img-responsive rounded-square mb-4",
+        style={"height": "160px", "width": "180px"}
+    )
