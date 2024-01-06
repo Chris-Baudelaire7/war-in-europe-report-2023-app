@@ -36,7 +36,7 @@ df_ue = df[~df.country.isin(["Ukraine", "Russia"])]
 # )
 
 
-# Summuru of key figure
+# Summary of key figures
 
 d1 = df.groupby(["country"], as_index=False).size().rename(columns={"size": "events"})
 d2 = df.groupby(["country"], as_index=False)["fatalities"].sum()

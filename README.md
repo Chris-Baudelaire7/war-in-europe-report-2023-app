@@ -41,7 +41,7 @@ To run this project locally, follow these steps:
 1. Clone the repository: `git clone https://github.com/your-username/armed-conflicts-project.git`
 2. Navigate to the project directory: `cd armed-conflicts-project`
 3. Install dependencies: `pip install -r requirements.txt`
-4. Run the project: `python main.py`
+4. Run the project: `python app.py`
 
 View the app by visiting the url displayed in the console in your web browser.
 
@@ -77,7 +77,6 @@ You can deploy this app if you want with:
 
 These are the most easy way to deploy a dash app
 You can see the video of Adam Shroeder to learn how to deploy a dash app
-
 
 ## Go Live
 
