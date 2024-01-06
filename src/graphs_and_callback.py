@@ -198,8 +198,7 @@ def mapbox(event_type):
         mapbox=dict(
             center={"lat": initial_view_state.latitude,
                     "lon": initial_view_state.longitude},
-            accesstoken="pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg",
-            # mapbox://styles/mapbox/satellite-streets-v11
+            accesstoken="YOUR_MAPBOX_ACCESS_TOKEN",
             style="mapbox://styles/mapbox/satellite-streets-v11",
             zoom=zoom,
             pitch=pitch
@@ -230,7 +229,7 @@ def mapbox_ue():
         mapbox=dict(
             center={"lat": initial_view_state.latitude,
                     "lon": initial_view_state.longitude},
-            accesstoken="pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg",
+            accesstoken="YOUR_MAPBOX_ACCESS_TOKEN",
             style="mapbox://styles/mapbox/satellite-streets-v11",
             zoom=2.5,
             pitch=40
@@ -262,7 +261,7 @@ def mapbox_ukraine():
         mapbox=dict(
             center={"lat": initial_view_state.latitude,
                     "lon": initial_view_state.longitude},
-            accesstoken="pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg",
+            accesstoken="YOUR_MAPBOX_ACCESS_TOKEN",
             style="mapbox://styles/mapbox/satellite-streets-v11",
             zoom=4.6,
             pitch=40
@@ -297,7 +296,7 @@ def mapbox_calendar(date):
         mapbox=dict(
             center={"lat": initial_view_state.latitude,
                     "lon": initial_view_state.longitude},
-            accesstoken="pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg",
+            accesstoken="YOUR_MAPBOX_ACCESS_TOKEN",
             style="mapbox://styles/mapbox/satellite-streets-v11",
             zoom=2.8,
             pitch=40

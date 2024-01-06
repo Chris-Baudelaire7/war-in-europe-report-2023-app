@@ -4,7 +4,7 @@ import numpy as np
 
 def map_config(style):
     map_config = {
-        "api_keys": {'mapbox': "pk.eyJ1IjoiY2hyaXMtYmF1ZGVsYWlyZSIsImEiOiJjbHB6dWYxb2wxOWdmMnJvOGtzaDVyb3Y2In0.pXQ81pAk9gRoUHXDnNsjJg"},
+        "api_keys": {'mapbox': "YOUR_MAPBOX_ACCESS_TOKEN"},
         "map_provider": 'mapbox',
         "map_style": style
     }
